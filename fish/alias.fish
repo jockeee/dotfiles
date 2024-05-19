@@ -18,12 +18,12 @@ end
 ##
 
 # c<space> to see it in action
-abbr --add b 'bat'
+abbr --add s 'bat'
 abbr --add c 'cd'
-abbr --add v 'vim'
+abbr --add g 'git'
 abbr --add t 'tmux'
 abbr --add tm 'tmux'
-abbr --add g 'git'
+abbr --add v 'vim'
 
 if command -q /usr/bin/btop
   abbr --add top 'btop'
@@ -62,7 +62,7 @@ abbr --add gs 'git status'
 function batdiff
   git diff --name-only --relative --diff-filter=d $argv | xargs bat --diff
 end
-abbr --add bd 'batdiff'
+abbr --add d 'batdiff'
 
 # used by: gg function
 # from   : https://github.com/oh-my-fish/oh-my-fish/blob/master/lib/git/git_is_repo.fish
@@ -149,20 +149,24 @@ if test -e /etc/os-release
 
       function upd -d 'system update, flatpak apps update, fisher plugins update'
         echo -e '\e[1mUpdating system\e[0m'
+        echo -e '\e[3msudo dnf upgrade -y\e[0m'
         sudo dnf upgrade -y
         echo
         if command -q /usr/bin/flatpak
           echo -e '\e[1mUpdating flatpak apps\e[0m'
+          echo -e '\e[3mflatpak update\e[0m'
           /usr/bin/flatpak update
           echo
         end
         if functions -q fisher
           echo -e '\e[1mUpdating fisher plugins\e[0m'
+          echo -e '\e[3mfisher update\e[0m'
           fisher update 1>/dev/null
           echo
         end
         if command -q /usr/local/bin/npm
           echo -e '\e[1mUpdating npm (globally)\e[0m'
+          echo -e '\e[3msudo npm install -g npm@latest\e[0m'
           sudo /usr/local/bin/npm install -g npm@latest
           echo
           echo "NPM version: $(/usr/local/bin/npm --version)"
@@ -173,6 +177,9 @@ if test -e /etc/os-release
       function upd -d 'system update, snap apps update, fisher plugins update'
         if command -q /usr/bin/apt
           echo -e '\e[1mUpdating system\e[0m'
+          echo -e '\e[3msudo apt update\e[0m'
+          echo -e '\e[3msudo apt full-upgrade -y\e[0m'
+          echo -e '\e[3msudo apt autoremove -y\e[0m'
           sudo /usr/bin/apt update
           sudo /usr/bin/apt full-upgrade -y
           sudo /usr/bin/apt autoremove -y
@@ -180,15 +187,18 @@ if test -e /etc/os-release
         end
         if command -q /usr/bin/snap
           echo -e '\e[1mUpdating snap apps\e[0m'
+          echo -e '\e[3msudo snap refresh\e[0m'
           sudo /usr/bin/snap refresh    # requires sudo unless authenticated to an Ubuntu One/SSO account
         end
         if functions -q fisher
           echo -e '\e[1mUpdating fisher plugins\e[0m'
+          echo -e '\e[3mfisher update\e[0m'
           fisher update 1>/dev/null
           echo
         end
         if command -q /usr/local/bin/npm
           echo -e '\e[1mUpdating npm (globally)\e[0m'
+          echo -e '\e[3msudo npm install -g npm@latest\e[0m'
           sudo /usr/local/bin/npm install -g npm@latest
           echo
           echo "NPM version: $(/usr/local/bin/npm --version)"
