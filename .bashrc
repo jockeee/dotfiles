@@ -18,15 +18,18 @@ fi
 
 upd_fedora() {
   echo -e '\e[1mUpdating system\e[0m'
+  echo -e '\e[3msudo dnf upgrade -y\e[0m'
   sudo dnf upgrade -y
   echo
   if type -P /usr/bin/flatpak &>/dev/null; then
     echo -e '\e[1mUpdating flatpak apps\e[0m'
+    echo -e '\e[3mflatpak update\e[0m'
     /usr/bin/flatpak update
     echo
   fi
   if type -P /usr/local/bin/npm &>/dev/null; then
     echo -e '\e[1mUpdating npm (globally)\e[0m'
+    echo -e '\e[3msudo npm install -g npm@latest\e[0m'
     sudo /usr/local/bin/npm install -g npm@latest
     echo
     echo "NPM version: $(/usr/local/bin/npm --version)"
@@ -36,16 +39,21 @@ upd_fedora() {
 
 upd_ubuntu() {
   echo -e '\e[1mUpdating system\e[0m'
+  echo -e '\e[3msudo apt update\e[0m'
+  echo -e '\e[3msudo apt full-upgrade -y\e[0m'
+  echo -e '\e[3msudo apt autoremove -y\e[0m'
   sudo apt update
   sudo apt full-upgrade -y
   sudo apt autoremove -y
   echo
   if type -P /usr/bin/snap &>/dev/null; then
     echo -e '\e[1mUpdating snap apps\e[0m'
+    echo -e '\e[3msudo snap refresh\e[0m'
     sudo /usr/bin/snap refresh    # requires sudo unless authenticated to an Ubuntu One/SSO account
   fi
   if type -P /usr/local/bin/npm &>/dev/null; then
     echo -e '\e[1mUpdating npm (globally)\e[0m'
+    echo -e '\e[3msudo npm install -g npm@latest\e[0m'
     sudo /usr/local/bin/npm install -g npm@latest
     echo
     echo "NPM version: $(/usr/local/bin/npm --version)"
