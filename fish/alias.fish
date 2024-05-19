@@ -149,24 +149,24 @@ if test -e /etc/os-release
 
       function upd -d 'system update, flatpak apps update, fisher plugins update'
         echo -e '\e[1mUpdating system\e[0m'
-        echo -e '\e[3msudo dnf upgrade -y\e[0m'
+        echo -e '\e[3msudo dnf upgrade -y\e[0m\n'
         sudo dnf upgrade -y
         echo
         if command -q /usr/bin/flatpak
           echo -e '\e[1mUpdating flatpak apps\e[0m'
-          echo -e '\e[3mflatpak update\e[0m'
+          echo -e '\e[3mflatpak update\e[0m\n'
           /usr/bin/flatpak update
           echo
         end
         if functions -q fisher
           echo -e '\e[1mUpdating fisher plugins\e[0m'
-          echo -e '\e[3mfisher update\e[0m'
+          echo -e '\e[3mfisher update\e[0m\n'
           fisher update 1>/dev/null
           echo
         end
         if command -q /usr/local/bin/npm
           echo -e '\e[1mUpdating npm (globally)\e[0m'
-          echo -e '\e[3msudo npm install -g npm@latest\e[0m'
+          echo -e '\e[3msudo npm install -g npm@latest\e[0m\n'
           sudo /usr/local/bin/npm install -g npm@latest
           echo
           echo "NPM version: $(/usr/local/bin/npm --version)"
@@ -177,9 +177,7 @@ if test -e /etc/os-release
       function upd -d 'system update, snap apps update, fisher plugins update'
         if command -q /usr/bin/apt
           echo -e '\e[1mUpdating system\e[0m'
-          echo -e '\e[3msudo apt update\e[0m'
-          echo -e '\e[3msudo apt full-upgrade -y\e[0m'
-          echo -e '\e[3msudo apt autoremove -y\e[0m'
+          echo -e '\e[3msudo apt update, sudo apt full-upgrade, sudo apt autoremove\e[0m\n'
           sudo /usr/bin/apt update
           sudo /usr/bin/apt full-upgrade -y
           sudo /usr/bin/apt autoremove -y
@@ -187,19 +185,19 @@ if test -e /etc/os-release
         end
         if command -q /usr/bin/snap
           echo -e '\e[1mUpdating snap apps\e[0m'
-          echo -e '\e[3msudo snap refresh\e[0m'
+          echo -e '\e[3msudo snap refresh\e[0m\n'
           sudo /usr/bin/snap refresh    # requires sudo unless authenticated to an Ubuntu One/SSO account
           echo
         end
         if functions -q fisher
           echo -e '\e[1mUpdating fisher plugins\e[0m'
-          echo -e '\e[3mfisher update\e[0m'
+          echo -e '\e[3mfisher update\e[0m\n'
           fisher update 1>/dev/null
           echo
         end
         if command -q /usr/local/bin/npm
           echo -e '\e[1mUpdating npm (globally)\e[0m'
-          echo -e '\e[3msudo npm install -g npm@latest\e[0m'
+          echo -e '\e[3msudo npm install -g npm@latest\e[0m\n'
           sudo /usr/local/bin/npm install -g npm@latest
           echo
           echo "NPM version: $(/usr/local/bin/npm --version)"
