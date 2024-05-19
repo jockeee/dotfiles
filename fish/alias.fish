@@ -18,7 +18,8 @@ end
 ##
 
 # c<space> to see it in action
-abbr --add c 'bat'
+abbr --add b 'bat'
+abbr --add c 'cd'
 abbr --add v 'vim'
 abbr --add t 'tmux'
 abbr --add tm 'tmux'
