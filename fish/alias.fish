@@ -189,6 +189,7 @@ if test -e /etc/os-release
           echo -e '\e[1mUpdating snap apps\e[0m'
           echo -e '\e[3msudo snap refresh\e[0m'
           sudo /usr/bin/snap refresh    # requires sudo unless authenticated to an Ubuntu One/SSO account
+          echo
         end
         if functions -q fisher
           echo -e '\e[1mUpdating fisher plugins\e[0m'

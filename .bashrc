@@ -50,6 +50,7 @@ upd_ubuntu() {
     echo -e '\e[1mUpdating snap apps\e[0m'
     echo -e '\e[3msudo snap refresh\e[0m'
     sudo /usr/bin/snap refresh    # requires sudo unless authenticated to an Ubuntu One/SSO account
+    echo
   fi
   if type -P /usr/local/bin/npm &>/dev/null; then
     echo -e '\e[1mUpdating npm (globally)\e[0m'
