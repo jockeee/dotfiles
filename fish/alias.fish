@@ -149,7 +149,7 @@ if test -e /etc/os-release
 
       function upd -d 'system update, flatpak apps update, fisher plugins update'
         echo -e '\e[1mUpdating system\e[0m'
-        echo -e '\e[3msudo dnf upgrade -y\e[0m\n'
+        echo -e '\e[3msudo dnf upgrade\e[0m\n'
         sudo dnf upgrade -y
         echo
         if command -q /usr/bin/flatpak
