@@ -28,7 +28,7 @@
 --  https://github.com/nvim-telescope/telescope.nvim/pull/2687
 --
 --  looks like it will be in next release, current is v0.1.6 from 3 weeks ago.
---  the commits happening now, addressng this, is from 1-2 days ago, just wait for the next release.
+--  the commits happening now, addressing this, is from 1-2 days ago, just wait for the next release.
 
 -- telescope alaternative?
 -- https://github.com/ibhagwan/fzf-lua
@@ -110,7 +110,7 @@ return {
           hidden = true, -- default: false
 
           -- alternative to below, use .ignore file, but you prefer this way
-          -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+          -- `hidden = true` will still show the inside of `.git/` as it's not in `.gitignore`.
           -- exclude files & dirs not included or specified in .gitignore
           find_command = {
             'rg',
@@ -135,98 +135,9 @@ return {
       },
     }
 
-    -- https://stackoverflow.com/questions/71809098/how-to-include-specific-hidden-file-folder-in-search-result-when-using-telescope
-    -- above show many solutions
-
-    -- this is from above link, you like it, exanding on the defaults, instead of hardcoding everything.
-    -- local telescope = require("telescope")
-    -- local telescopeConfig = require("telescope.config")
-    --
-    -- -- Clone the default Telescope configuration
-    -- local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
-    --
-    -- -- I want to search in hidden/dot files.
-    -- table.insert(vimgrep_arguments, "--hidden")
-    -- -- I don't want to search in the `.git` directory.
-    -- table.insert(vimgrep_arguments, "--glob")
-    -- table.insert(vimgrep_arguments, "!**/.git/*")
-    --
-    -- telescope.setup({
-    --   defaults = {
-    --     -- `hidden = true` is not supported in text grep commands.
-    --         hidden = true,
-    --     vimgrep_arguments = vimgrep_arguments,
-    --   },
-    --   pickers = {
-    --     find_files= {
-    --             hidden = true,
-    --       -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
-    --       find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-    --     },
-    --    },
-    -- })
-    -- ----- This activates the search for hidden files in live_grep
-    -- require("telescope").setup {
-    --      pickers = {
-    --           live_grep = {
-    --              additional_args = function(_ts)
-    --                  return {"--hidden"}
-    --              end
-    --           },
-    --      },
-    --   }
-
-    -- leader find help > tele find files
-    -- {hidden}             (boolean)   determines whether to show hidden files or not (default: false)
-    -- {no_ignore}          (boolean)   show files ignored by .gitignore, .ignore, etc. (default: false)
-    -- {no_ignore_parent}   (boolean)   show files ignored by .gitignore, .ignore, etc. in parent dirs. (default: false)
-
-    -- leader find help > tele def vimgrep
-    -- Telescope uses ripgrep to search through files.
-    -- By default, ripgrep ignores several groups of files, including hidden files (dotfiles) and files ignored by git.
-    -- Adding --no-ignore-vcs and --hidden flags will make it to search through those files.
-    --
-    --   *telescope.defaults.vimgrep_arguments*
-    -- vimgrep_arguments:
-    --     Defines the command that will be used for `live_grep` and `grep_string`
-    --     pickers.
-    --     Hint: Make sure that color is currently set to `never` because we do
-    --     not yet interpret color codes
-    --     Hint 2: Make sure that these options are in your changes arguments:
-    --       "--no-heading", "--with-filename", "--line-number", "--column"
-    --     because we need them so the ripgrep output is in the correct format.
-    --
-    --     Default: {
-    --       "rg",
-    --       "--color=never",
-    --       "--no-heading",
-    --       "--with-filename",
-    --       "--line-number",
-    --       "--column",
-    --       "--smart-case"
-    --     }
-    --
-
     -- Enable telescope extensions, if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
-
-    -- --------------------
-    -- AUTOCOMMANDS
-    -- --------------------
-
-    -- TODO: https://github.com/folke/lazy.nvim/issues/135
-    -- what are these events, LazyDone sounds nice, how to use it
-    --
-    -- on nvim startup, if no arguments was specified, open telescope find_files()
-    -- vim.api.nvim_create_autocmd('VimEnter', {
-    -- vim.api.nvim_create_autocmd('LazyDone', {
-    --   callback = function()
-    --     if vim.fn.argv(0) == '' then
-    --       require('telescope.builtin').find_files()
-    --     end
-    --   end,
-    -- })
 
     -- --------------------
     -- KEYMAPS
@@ -235,11 +146,7 @@ return {
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
 
-    -- --------------------
-    -- leader (no prefix)
-    -- --------------------
-
-    vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = 'Find existing buffers' })
+    vim.keymap.set('n', '<leader><leader>', builtin.git_files, { desc = 'Find git file' })
 
     -- find in current buffer
     -- Slightly advanced example of overriding default behavior and theme
@@ -251,10 +158,6 @@ return {
       })
     end, { desc = 'Find in current buffer' })
 
-    -- --------------------
-    -- leader-f: find
-    -- --------------------
-
     -- grep in open files
     -- Also possible to pass additional configuration options.
     --  See `:help telescope.builtin.live_grep()` for information about particular keys
@@ -265,20 +168,89 @@ return {
       }
     end, { desc = 'Find in open files' })
 
-    -- OLD find nvim config files
+    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find buffer' })
+    vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Find diagnostics' })
+    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find file' })
+    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Find by grep' })
+    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Find help' })
+    vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Find keymap' })
+    vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Find old (recent) file' })
+    vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find resume' })
+    vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = 'Find select telescope' })
+    vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Find word under cursor' })
+
+    -- find nvim config files
     -- vim.keymap.set('n', '<leader>fc', function()
     --   builtin.find_files { cwd = vim.fn.stdpath 'config' }
     -- end, { desc = 'Find nvim config files' })
-
-    vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = 'Find diagnostics' })
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
-    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Find by grep' })
-    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Find help' })
-    vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Find keymaps' })
-    vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Find old (recent) files' })
-    vim.keymap.set('n', '<leader>fp', builtin.git_files, { desc = 'Find project (git) files' })
-    vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find resume' })
-    vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = 'Find select telescope' })
-    vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Find current word' })
   end,
 }
+
+-- https://stackoverflow.com/questions/71809098/how-to-include-specific-hidden-file-folder-in-search-result-when-using-telescope
+-- this is from above link, you like it, exanding on the defaults, instead of hardcoding everything.
+-- local telescope = require("telescope")
+-- local telescopeConfig = require("telescope.config")
+--
+-- -- Clone the default Telescope configuration
+-- local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+--
+-- -- I want to search in hidden/dot files.
+-- table.insert(vimgrep_arguments, "--hidden")
+-- -- I don't want to search in the `.git` directory.
+-- table.insert(vimgrep_arguments, "--glob")
+-- table.insert(vimgrep_arguments, "!**/.git/*")
+--
+-- telescope.setup({
+--   defaults = {
+--     -- `hidden = true` is not supported in text grep commands.
+--         hidden = true,
+--     vimgrep_arguments = vimgrep_arguments,
+--   },
+--   pickers = {
+--     find_files= {
+--             hidden = true,
+--       -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+--       find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+--     },
+--    },
+-- })
+-- ----- This activates the search for hidden files in live_grep
+-- require("telescope").setup {
+--      pickers = {
+--           live_grep = {
+--              additional_args = function(_ts)
+--                  return {"--hidden"}
+--              end
+--           },
+--      },
+--   }
+
+-- leader find help > tele find files
+-- {hidden}             (boolean)   determines whether to show hidden files or not (default: false)
+-- {no_ignore}          (boolean)   show files ignored by .gitignore, .ignore, etc. (default: false)
+-- {no_ignore_parent}   (boolean)   show files ignored by .gitignore, .ignore, etc. in parent dirs. (default: false)
+
+-- leader find help > tele def vimgrep
+-- Telescope uses ripgrep to search through files.
+-- By default, ripgrep ignores several groups of files, including hidden files (dotfiles) and files ignored by git.
+-- Adding --no-ignore-vcs and --hidden flags will make it to search through those files.
+--
+--   *telescope.defaults.vimgrep_arguments*
+-- vimgrep_arguments:
+--     Defines the command that will be used for `live_grep` and `grep_string`
+--     pickers.
+--     Hint: Make sure that color is currently set to `never` because we do
+--     not yet interpret color codes
+--     Hint 2: Make sure that these options are in your changes arguments:
+--       "--no-heading", "--with-filename", "--line-number", "--column"
+--     because we need them so the ripgrep output is in the correct format.
+--
+--     Default: {
+--       "rg",
+--       "--color=never",
+--       "--no-heading",
+--       "--with-filename",
+--       "--line-number",
+--       "--column",
+--       "--smart-case"
+--     }

@@ -39,12 +39,13 @@ return {
   { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
   require 'user.plugins.mini', -- collection of various small independent plugins/modules
 
-  require 'user.plugins.nvim-autopairs',
-  require 'user.plugins.vim-visual-multi',
-  -- require 'user.plugins.multicursors',
-
   require 'user.plugins.toggleterm',
-  require 'user.plugins.copilot',
+  require 'user.plugins.github-copilot',
+
+  require 'user.plugins.vim-visual-multi',
+  -- require 'user.plugins.auto-session',
+  -- require 'user.plugins.nvim-autopairs',
+  -- require 'user.plugins.multicursors',
 
   --
   -- --------------------

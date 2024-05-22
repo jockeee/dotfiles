@@ -54,24 +54,26 @@ vim.keymap.set('n', '\\', '<cmd>Neotree focus<cr>', { desc = 'Neotree' })
 -- leader-c: code
 -- --------------------
 
+-- see lsp-config.lua, nvim-cmp.lua and conform.lua plugins for most of the keymaps related to code
+
 -- --------------------
 -- leader-d: document (everything buffer related as well, you don't want to hit b key for it)
 -- --------------------
 
-vim.keymap.set('n', '<leader>dc', '<cmd>bdelete<cr>', { desc = 'Document close (buffer delete)' })
+vim.keymap.set('n', '<leader>dd', '<cmd>bdelete<cr>', { desc = 'Buffer delete' })
+vim.keymap.set('n', '<leader>dx', '<cmd>bdelete!<cr>', { desc = 'Buffer kill (ignore unsaved changes)' })
 
 -- --------------------
 -- leader-f: find
 -- --------------------
 
--- l-fc -- Find nvim config files -- telescope.lua
+-- see telescope.lua for most of the keymaps related to finding stuff
 
 -- --------------------
 -- leader-g: git
 -- --------------------
 
-vim.keymap.set('n', '<leader>gg', '<cmd>Neogit<cr>', { desc = 'Neogit' })
-vim.keymap.set('n', '<leader>gc', '<cmd>Neogit commit<cr>', { desc = 'Neogit commit' })
+vim.keymap.set('n', '<leader>g', '<cmd>Neogit<cr>', { desc = 'Neogit' })
 
 -- --------------------
 -- leader-q: quit

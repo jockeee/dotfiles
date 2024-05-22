@@ -57,7 +57,7 @@ vim.opt.timeoutlen = 300 -- lower than default (1000) to quickly trigger which-k
 
 -- sets how neovim will display certain whitespace in the editor.
 vim.opt.list = false -- show invisible characters (tabs...)
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+-- vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
 
 -- preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
@@ -70,3 +70,8 @@ vim.opt.scrolloff = 10 -- lines of context
 
 -- popupmenu
 vim.opt.pumheight = 10 -- maximum number of items to show in the popup menu
+
+-- sessions
+-- auto-session plugin suggests these sessionoptions
+-- https://github.com/rmagatti/auto-session?tab=readme-ov-file#recommended-sessionoptions-config
+vim.opt.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'

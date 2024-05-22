@@ -2,9 +2,6 @@
 -- AUTOCOMMANDS
 -- --------------------
 
--- TODO: https://github.com/folke/lazy.nvim/issues/135
--- what are these events, LazyDone sounds nice.
---
 -- on nvim startup, if no arguments was specified, open telescope find_files()
 vim.api.nvim_create_autocmd('VimEnter', {
   callback = function()
