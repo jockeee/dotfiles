@@ -44,6 +44,7 @@ return {
   -- require 'user.plugins.multicursors',
 
   require 'user.plugins.toggleterm',
+  require 'user.plugins.copilot',
 
   --
   -- --------------------
