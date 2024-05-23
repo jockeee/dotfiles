@@ -175,7 +175,7 @@ upd_go() {
     fi
 
     echo
-    echo "Go version: $(/usr/local/go/bin/go version)"
+    echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
     echo
   fi
 }
