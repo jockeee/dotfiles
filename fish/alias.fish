@@ -218,6 +218,7 @@ function upd_go -d 'golang update'
       set arch 'amd64'
     end
     set kind 'archive'
+    set temp_file "/tmp/tmp.golang_install"
     set download_url_base 'https://go.dev/dl/'
     set go_dev_json (curl -s 'https://go.dev/dl/?mode=json')
 
@@ -251,12 +252,13 @@ function upd_go -d 'golang update'
       set download_filename (echo $selected_json | jq -r '.filename')
       set download_checksum (echo $selected_json | jq -r '.sha256')
     else
-      echo "Error: Couldn't find the latest version for $os-$arch in the JSON response."
+      echo "Error: Couldn't find the latest version for $os-$arch in the JSON response"
       return 1
     end
 
     if test $need_update -eq 1
       echo "Update available: $current_go_version -> $latest_go_version"
+      echo
 
       # ask user to continue
       read -l -P "Do you want to update? [y/N]: " continue
@@ -264,10 +266,25 @@ function upd_go -d 'golang update'
         return 0
       end
 
-      # user wants to update
+      echo
+
+      if not command -q curl -a command -q wget
+        echo "Error: Neither 'curl' nor 'wget' found"
+        return 1
+      end
+
       # download
-      set temp_file "/tmp/tmp.golang_install"
-      curl -sL -o $temp_file "$download_url_base$download_filename"
+      if command -q curl
+        curl -L -o $temp_file "$download_url_base$download_filename"
+      else
+        wget -q --show-progress -O $temp_file "$download_url_base$download_filename"
+      end
+
+      if test $status -ne 0
+        echo "Error: Download failed"
+        rm $temp_file
+        return 1
+      end
 
       # verify checksum
       set checksum (sha256sum $temp_file | cut -d' ' -f1)
@@ -277,12 +294,9 @@ function upd_go -d 'golang update'
         return 1
       end
 
-      # remove the old go directory
+      # update
       sudo rm -rf /usr/local/go
-
-      # extract the archive
       sudo tar -C /usr/local -xzf $temp_file
-
       rm $temp_file
     else
       echo "No update available"
