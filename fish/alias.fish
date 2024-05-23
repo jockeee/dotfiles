@@ -266,7 +266,7 @@ function upd_go -d 'golang update'
 
       # user wants to update
       # make a temp file
-      set temp_file (mktemp) # /tmp/tmp.XXXXXXXXXX
+      set temp_file (mktemp) || return 1 # /tmp/tmp.XXXXXXXXXX
 
       # download
       curl -sL -o $temp_file "$download_url_base$download_filename"
@@ -274,7 +274,7 @@ function upd_go -d 'golang update'
       # verify checksum
       set checksum (sha256sum $temp_file | cut -d' ' -f1)
       if test $checksum != $download_checksum
-        echo "Checksum verification failed"
+        echo "Error: Checksum verification failed"
         rm $temp_file
         return 1
       end
@@ -282,18 +282,17 @@ function upd_go -d 'golang update'
       # remove the old go directory
       sudo rm -rf /usr/local/go
 
-      # extract the downloaded file
+      # extract the archive
       sudo tar -C /usr/local -xzf $temp_file
 
       rm $temp_file
     else
       echo "No update available"
     end
-  else
-    echo "Error: Couldn't locate /usr/local/go/bin/go"
+
+    echo
+    echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
+    echo
   end
 
-  echo
-  echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
-  echo
 end
