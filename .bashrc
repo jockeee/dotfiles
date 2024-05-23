@@ -136,6 +136,7 @@ upd_go() {
 
     if [ $need_update == true ]; then
       echo "Update available: $current_go_version -> $latest_go_version"
+      echo
       
       # ask user to continue
       read -p "Do you want to update? [y/N] " -n 1 -r
@@ -177,7 +178,6 @@ upd_go() {
     echo "Go version: $(/usr/local/go/bin/go version)"
     echo
   fi
-
 }
 
 if [ -e /etc/os-release ]; then
