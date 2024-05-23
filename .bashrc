@@ -1,4 +1,4 @@
-# ... snip ... default distro ~/.bashrc above
+# default distro ~/.bashrc above
 
 ##
 ## ALIAS
