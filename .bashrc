@@ -65,45 +65,45 @@ upd_go() {
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
     echo
 
-    os = $(uname -s | tr '[:upper:]' '[:lower:]')
-    arch = $(uname -m)
+    os=$(uname -s | tr '[:upper:]' '[:lower:]')
+    arch=$(uname -m)
     if [ $arch == 'x86_64' ]; then
-      arch = 'amd64'
+      arch='amd64'
     fi
-    kind = 'archive'
-    download_url_base = 'https://golang.org/dl/'
-    go_dev_json = $(curl -s https://go.dev/dl/?mode=json)
+    kind='archive'
+    download_url_base='https://golang.org/dl/'
+    go_dev_json=$(curl -s https://go.dev/dl/?mode=json)
 
-    current_go_version = $(/usr/local/go/bin/go version | awk '{print $3}')
-    latest_go_version = $(echo $go_dev_json | jq -r '.[0].version')
+    current_go_version=$(/usr/local/go/bin/go version | awk '{print $3}')
+    latest_go_version=$(echo $go_dev_json | jq -r '.[0].version')
 
-    current_major = $(echo $current_go_version | sed 's/go//' | cut -d. -f1)
-    current_minor = $(echo $current_go_version | sed 's/go//' | cut -d. -f2)
-    current_patch = $(echo $current_go_version | sed 's/go//' | cut -d. -f3)
+    current_major=$(echo $current_go_version | sed 's/go//' | cut -d. -f1)
+    current_minor=$(echo $current_go_version | sed 's/go//' | cut -d. -f2)
+    current_patch=$(echo $current_go_version | sed 's/go//' | cut -d. -f3)
 
-    latest_major = $(echo $latest_go_version | sed 's/go//' | cut -d. -f1)
-    latest_minor = $(echo $latest_go_version | sed 's/go//' | cut -d. -f2)
-    latest_patch = $(echo $latest_go_version | sed 's/go//' | cut -d. -f3)
+    latest_major=$(echo $latest_go_version | sed 's/go//' | cut -d. -f1)
+    latest_minor=$(echo $latest_go_version | sed 's/go//' | cut -d. -f2)
+    latest_patch=$(echo $latest_go_version | sed 's/go//' | cut -d. -f3)
 
-    need_update = false
+    need_update=false
     if [ $current_major -lt $latest_major ]; then
-      need_update = true
+      need_update=true
     elif [ $current_major -eq $latest_major ]; then
       if [ $current_minor -lt $latest_minor ]; then
-        need_update = true
+        need_update=true
       elif [ $current_minor -eq $latest_minor ]; then
         if [ $current_patch -lt $latest_patch ]; then
-          need_update = true
+          need_update=true
         fi
       fi
     fi
 
-    selected_json = $(echo $go_dev_json | jq -r --arg os "$os" --arg arch "$arch" --arg kind "$kind" --arg version "$latest_go_version" '.[0].files[] | select(.os == $os and .arch == $arch and .kind == $kind and .version == $version)')
+    selected_json=$(echo $go_dev_json | jq -r --arg os "$os" --arg arch "$arch" --arg kind "$kind" --arg version "$latest_go_version" '.[0].files[] | select(.os == $os and .arch == $arch and .kind == $kind and .version == $version)')
 
     # if selected_json isn't empty, set download_filename and download_checksum
     if [ -n "$selected_json" ]; then
-      download_filename = $(echo $selected_json | jq -r '.filename')
-      download_checksum = $(echo $selected_json | jq -r '.sha256')
+      download_filename=$(echo $selected_json | jq -r '.filename')
+      download_checksum=$(echo $selected_json | jq -r '.sha256')
     else
       echo "Error: Couldn't find the latest version for $os-$arch in the JSON response."
       return 1
@@ -120,11 +120,11 @@ upd_go() {
 
       # user wants to update
       # download
-      temp_file = "/tmp/tmp.golang_install"
+      temp_file="/tmp/tmp.golang_install"
       curl -sL -o $temp_file $download_url_base$download_filename
 
       # verify checksum
-      checksum = $(sha256sum $temp_file | cut -d' ' -f1)
+      checksum=$(sha256sum $temp_file | cut -d' ' -f1)
       if [ $checksum != $download_checksum ]; then
         echo "Error: Checksum verification failed."
         rm $temp_file
