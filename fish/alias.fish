@@ -265,10 +265,8 @@ function upd_go -d 'golang update'
       end
 
       # user wants to update
-      # make a temp file
-      set temp_file (mktemp) || return 1 # /tmp/tmp.XXXXXXXXXX
-
       # download
+      set temp_file "/tmp/tmp.golang_install"
       curl -sL -o $temp_file "$download_url_base$download_filename"
 
       # verify checksum
