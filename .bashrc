@@ -65,6 +65,12 @@ upd_go() {
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
     echo
 
+    # if neither curl nor wget found, this function can't proceed
+    if ! type -P /usr/bin/curl &>/dev/null && ! type -P /usr/bin/wget &>/dev/null; then
+      echo "Error: Neither 'curl' nor 'wget' found"
+      return 1
+    fi
+
     os=$(uname -s | tr '[:upper:]' '[:lower:]')
     arch=$(uname -m)
     if [ $arch == 'x86_64' ]; then
@@ -73,7 +79,19 @@ upd_go() {
     kind='archive'
     temp_file="/tmp/tmp.golang_install"
     download_url_base='https://golang.org/dl/'
-    go_dev_json=$(curl -s https://go.dev/dl/?mode=json)
+
+    # download json
+    if type -P /usr/bin/curl &>/dev/null; then
+      go_dev_json=$(curl -s https://go.dev/dl/?mode=json)
+    else
+      go_dev_json=$(wget -qO- https://go.dev/dl/?mode=json)
+    fi
+
+    if [ $? -ne 0 ]; then
+      echo "Error: Couldn't retrieve JSON response from 'https://go.dev/dl/?mode=json'"
+      rm $temp_file
+      return 1
+    fi
 
     current_go_version=$(/usr/local/go/bin/go version | awk '{print $3}')
     latest_go_version=$(echo $go_dev_json | jq -r '.[0].version')
@@ -118,15 +136,9 @@ upd_go() {
       if [[ ! $REPLY =~ ^[Yy]$ ]]; then
         return 0
       fi
+      echo
 
-      # user wants to update
-
-      if ! type -P /usr/bin/curl &>/dev/null && ! type -P /usr/bin/wget &>/dev/null; then
-        echo "Error: Neither 'curl' nor 'wget' found"
-        return 1
-      fi
-
-      # download
+      # download go
       if type -P /usr/bin/curl &>/dev/null; then
         curl -L -o $temp_file $download_url_base$download_filename
       else
