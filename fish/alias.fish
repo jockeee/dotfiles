@@ -140,7 +140,8 @@ end
 
 # upd (fedora/ubuntu)
 if test -e /etc/os-release
-  switch (grep -E "^ID=" /etc/os-release | cut -d= -f2)
+  set os_id (grep -E "^ID=" /etc/os-release | cut -d= -f2)
+  switch $os_id
     case 'fedora'
       if command -q /usr/bin/dnf5
         alias dnf 'dnf5'
@@ -157,20 +158,9 @@ if test -e /etc/os-release
           /usr/bin/flatpak update
           echo
         end
-        if functions -q fisher
-          echo -e '\e[1mUpdating fisher plugins\e[0m'
-          echo -e '\e[3mfisher update\e[0m\n'
-          fisher update 1>/dev/null
-          echo
-        end
-        if command -q /usr/local/bin/npm
-          echo -e '\e[1mUpdating npm (globally)\e[0m'
-          echo -e '\e[3msudo npm install -g npm@latest\e[0m\n'
-          sudo /usr/local/bin/npm install -g npm@latest
-          echo
-          echo "NPM version: $(/usr/local/bin/npm --version)"
-          echo
-        end
+        upd_fisher
+        upd_npm
+        upd_go
       end
     case 'ubuntu'
       function upd -d 'system update, snap apps update, fisher plugins update'
@@ -188,21 +178,124 @@ if test -e /etc/os-release
           sudo /usr/bin/snap refresh    # requires sudo unless authenticated to an Ubuntu One/SSO account
           echo
         end
-        if functions -q fisher
-          echo -e '\e[1mUpdating fisher plugins\e[0m'
-          echo -e '\e[3mfisher update\e[0m\n'
-          fisher update 1>/dev/null
-          echo
-        end
-        if command -q /usr/local/bin/npm
-          echo -e '\e[1mUpdating npm (globally)\e[0m'
-          echo -e '\e[3msudo npm install -g npm@latest\e[0m\n'
-          sudo /usr/local/bin/npm install -g npm@latest
-          echo
-          echo "NPM version: $(/usr/local/bin/npm --version)"
-          echo
-        end
+        upd_fisher
+        upd_npm
+        upd_go
       end
   end
 end
 
+function upd_fisher -d 'fisher update'
+  if functions -q fisher
+    echo -e '\e[1mUpdating fisher plugins\e[0m'
+    echo -e '\e[3mfisher update\e[0m\n'
+    fisher update 1>/dev/null
+    # echo # above will not output anything unless there is an error
+  end
+end
+
+function upd_npm -d 'npm update'
+  if command -q /usr/local/bin/npm
+    echo -e '\e[1mUpdating npm (globally)\e[0m'
+    echo -e '\e[3msudo npm install -g npm@latest\e[0m'
+    sudo /usr/local/bin/npm install -g npm@latest
+    echo
+    echo "NPM version: $(/usr/local/bin/npm --version)"
+    echo
+  end
+end
+
+function upd_go -d 'golang update'
+  # example download url: https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
+  if command -q /usr/local/go/bin/go
+    echo -e '\e[1mUpdating golang (globally)\e[0m'
+    echo -e '\e[3mhttps://go.dev/dl\e[0m'
+    echo
+
+    set os (uname -s | tr '[:upper:]' '[:lower:]')
+    set arch (uname -m)
+    if test $arch = 'x86_64'
+      set arch 'amd64'
+    end
+    set kind 'archive'
+    set download_url_base 'https://go.dev/dl/'
+    set go_dev_json (curl -s 'https://go.dev/dl/?mode=json')
+
+    set current_go_version (/usr/local/go/bin/go version | awk '{print $3}')
+    set latest_go_version (echo $go_dev_json | jq -r '.[0].version')
+
+    set current_major (echo $current_go_version | sed 's/go//' | cut -d. -f1)
+    set current_minor (echo $current_go_version | sed 's/go//' | cut -d. -f2)
+    set current_patch (echo $current_go_version | sed 's/go//' | cut -d. -f3)
+
+    set latest_major (echo $latest_go_version | sed 's/go//' | cut -d. -f1)
+    set latest_minor (echo $latest_go_version | sed 's/go//' | cut -d. -f2)
+    set latest_patch (echo $latest_go_version | sed 's/go//' | cut -d. -f3)
+
+    set need_update 0
+    if test $current_major -lt $latest_major
+      set need_update 1
+    else if test $current_major -eq $latest_major
+      if test $current_minor -lt $latest_minor
+        set need_update 1
+      else if test $current_minor -eq $latest_minor
+        if test $current_patch -lt $latest_patch
+          set need_update 1
+        end
+      end
+    end
+
+    set selected_json (echo $go_dev_json | jq -r --arg os "$os" --arg arch "$arch" --arg kind "$kind" --arg version "$latest_go_version" '.[0].files[] | select(.os == $os and .arch == $arch and .kind == $kind and .version == $version)')
+
+    if test -n "$selected_json"
+      set download_filename (echo $selected_json | jq -r '.filename')
+      set download_checksum (echo $selected_json | jq -r '.sha256')
+    else
+      echo "Error: Couldn't find the latest version for $os-$arch in the JSON response."
+      return 1
+    end
+
+    if test $need_update -eq 1
+      echo "Update available: $current_go_version -> $latest_go_version"
+
+      # ask user to continue
+      read -l -P "Do you want to update? (y/N): " continue
+      if test $continue != "y"
+        return 0
+      end
+    end
+
+    # user wants to update
+    if test $need_update -eq 1
+      # make a temp file
+      set temp_file (mktemp) # /tmp/tmp.XXXXXXXXXX
+
+      # download
+      curl -sL -o $temp_file "$download_url_base$download_filename"
+
+      # verify checksum
+      set checksum (sha256sum $temp_file | cut -d' ' -f1)
+      if test $checksum != $download_checksum
+        echo "Checksum verification failed"
+        rm $temp_file
+        return 1
+      end
+
+      # remove the old go directory
+      sudo rm -rf /usr/local/go
+
+      # extract the downloaded file
+      sudo tar -C /usr/local -xzf $temp_file
+
+      rm $temp_file
+    else
+      echo "No update available"
+    end
+  else
+    echo "Error: Couldn't locate /usr/local/go/bin/go"
+  end
+
+  echo
+  echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
+  echo
+end
