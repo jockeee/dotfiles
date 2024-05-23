@@ -28,6 +28,7 @@ upd_fedora() {
     echo
   fi
   upd_npm
+  upd_go
 }
 
 upd_ubuntu() {
@@ -44,6 +45,7 @@ upd_ubuntu() {
     echo
   fi
   upd_npm
+  upd_go
 }
 
 upd_npm() {
@@ -57,7 +59,7 @@ upd_npm() {
   fi
 }
 
-upd_golang() {
+upd_go() {
   if type -P /usr/local/go/bin/go &>/dev/null; then
     echo -e '\e[1mUpdating Go\e[0m'
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
