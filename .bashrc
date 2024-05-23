@@ -129,7 +129,7 @@ upd_go() {
       # download
       if type -P /usr/bin/curl &>/dev/null; then
         curl -L -o $temp_file $download_url_base$download_filename
-      else type -P /usr/bin/wget &>/dev/null; then
+      else
         wget -q --show-progress -O $temp_file $download_url_base$download_filename
       fi
 
