@@ -259,14 +259,12 @@ function upd_go -d 'golang update'
       echo "Update available: $current_go_version -> $latest_go_version"
 
       # ask user to continue
-      read -l -P "Do you want to update? (y/N): " continue
-      if test $continue != "y"
+      read -l -P "Do you want to update? [y/N]: " continue
+      if test $continue != "y" -a $continue != "Y"
         return 0
       end
-    end
 
-    # user wants to update
-    if test $need_update -eq 1
+      # user wants to update
       # make a temp file
       set temp_file (mktemp) # /tmp/tmp.XXXXXXXXXX
 
