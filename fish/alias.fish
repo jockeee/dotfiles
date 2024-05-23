@@ -212,6 +212,12 @@ function upd_go -d 'golang update'
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
     echo
 
+    # if neither curl nor wget found, this function can't proceed
+    if not command -q curl -a command -q wget
+      echo "Error: Neither 'curl' nor 'wget' found"
+      return 1
+    end
+
     set os (uname -s | tr '[:upper:]' '[:lower:]')
     set arch (uname -m)
     if test $arch = 'x86_64'
@@ -220,7 +226,18 @@ function upd_go -d 'golang update'
     set kind 'archive'
     set temp_file "/tmp/tmp.golang_install"
     set download_url_base 'https://go.dev/dl/'
-    set go_dev_json (curl -s 'https://go.dev/dl/?mode=json')
+
+    # download json
+    if command -q curl
+      set go_dev_json (curl -s 'https://go.dev/dl/?mode=json')
+    else
+      set go_dev_json (wget -qO- 'https://go.dev/dl/?mode=json')
+    end
+
+    if test $status -ne 0
+      echo "Error: Couldn't retrieve JSON response from 'https://go.dev/dl/?mode=json'"
+      return 1
+    end
 
     set current_go_version (/usr/local/go/bin/go version | awk '{print $3}')
     set latest_go_version (echo $go_dev_json | jq -r '.[0].version')
@@ -265,15 +282,9 @@ function upd_go -d 'golang update'
       if test $continue != "y" -a $continue != "Y"
         return 0
       end
-
       echo
 
-      if not command -q curl -a command -q wget
-        echo "Error: Neither 'curl' nor 'wget' found"
-        return 1
-      end
-
-      # download
+      # download go
       if command -q curl
         curl -L -o $temp_file "$download_url_base$download_filename"
       else
