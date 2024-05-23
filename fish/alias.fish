@@ -212,9 +212,15 @@ function upd_go -d 'golang update'
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
     echo
 
-    # if neither curl nor wget found, this function can't proceed
+    # if neither curl nor wget found, exit
     if not command -q curl -a command -q wget
       echo "Error: Neither 'curl' nor 'wget' found"
+      return 1
+    end
+
+    # if jq not found, exit 
+    if not command -q jq
+      echo "Error: 'jq' not found"
       return 1
     end
 
