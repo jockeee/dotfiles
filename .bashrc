@@ -65,9 +65,15 @@ upd_go() {
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
     echo
 
-    # if neither curl nor wget found, this function can't proceed
+    # if neither curl nor wget found, exit
     if ! type -P /usr/bin/curl &>/dev/null && ! type -P /usr/bin/wget &>/dev/null; then
       echo "Error: Neither 'curl' nor 'wget' found"
+      return 1
+    fi
+
+    # if jq not found, exit
+    if ! type -P /usr/bin/jq &>/dev/null; then
+      echo "Error: 'jq' not found"
       return 1
     fi
 
