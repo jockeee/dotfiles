@@ -279,7 +279,7 @@ function upd_go -d 'golang update'
       return 1
     end
 
-    if test $need_update -eq 1
+    if test $need_update -eq 0
       echo "Update available: $current_go_version -> $latest_go_version"
       echo
 
@@ -323,5 +323,4 @@ function upd_go -d 'golang update'
     echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
     echo
   end
-
 end
