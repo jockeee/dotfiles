@@ -71,6 +71,7 @@ upd_go() {
       arch='amd64'
     fi
     kind='archive'
+    temp_file="/tmp/tmp.golang_install"
     download_url_base='https://golang.org/dl/'
     go_dev_json=$(curl -s https://go.dev/dl/?mode=json)
 
@@ -119,24 +120,36 @@ upd_go() {
       fi
 
       # user wants to update
-      # download
-      temp_file="/tmp/tmp.golang_install"
-      curl -sL -o $temp_file $download_url_base$download_filename
 
-      # verify checksum
-      checksum=$(sha256sum $temp_file | cut -d' ' -f1)
-      if [ $checksum != $download_checksum ]; then
-        echo "Error: Checksum verification failed."
+      if ! type -P /usr/bin/curl &>/dev/null && ! type -P /usr/bin/wget &>/dev/null; then
+        echo "Error: Neither 'curl' nor 'wget' found"
+        return 1
+      fi
+
+      # download
+      if type -P /usr/bin/curl &>/dev/null; then
+        curl -L -o $temp_file $download_url_base$download_filename
+      else type -P /usr/bin/wget &>/dev/null; then
+        wget -q --show-progress -O $temp_file $download_url_base$download_filename
+      fi
+
+      if [ $? -ne 0 ]; then
+        echo "Error: Download failed."
         rm $temp_file
         return 1
       fi
 
-      # rmeove the old go directory
+      # verify checksum
+      checksum=$(sha256sum $temp_file | cut -d' ' -f1)
+      if [ $checksum != $download_checksum ]; then
+        echo "Error: Checksum verification failed"
+        rm $temp_file
+        return 1
+      fi
+
+      # update
       sudo rm -rf /usr/local/go
-
-      # extract the archive
       sudo tar -C /usr/local -xzf $temp_file
-
       rm $temp_file
     else
       echo "No update available"
