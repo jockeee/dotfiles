@@ -155,7 +155,7 @@ if test -e /etc/os-release
         if command -q /usr/bin/flatpak
           echo -e '\e[1mUpdating flatpak apps\e[0m'
           echo -e '\e[3mflatpak update\e[0m\n'
-          /usr/bin/flatpak update
+          /usr/bin/flatpak update -y
           echo
         end
         upd_fisher
@@ -283,12 +283,11 @@ function upd_go -d 'golang update'
       echo "Update available: $current_go_version -> $latest_go_version"
       echo
 
-      # ask user to continue
-      read -l -P "Do you want to update? [y/N]: " continue
-      if test $continue != "y" -a $continue != "Y"
-        return 0
-      end
-      echo
+      # read -l -P "Do you want to update? [y/N]: " continue
+      # if test $continue != "y" -a $continue != "Y"
+      #   return 0
+      # end
+      # echo
 
       # download go
       if command -q curl
