@@ -24,7 +24,7 @@ upd_fedora() {
   if type -P /usr/bin/flatpak &>/dev/null; then
     echo -e '\e[1mUpdating flatpak apps\e[0m'
     echo -e '\e[3mflatpak update\e[0m\n'
-    /usr/bin/flatpak update
+    /usr/bin/flatpak update -y
     echo
   fi
   upd_npm
@@ -139,11 +139,11 @@ upd_go() {
       echo
       
       # ask user to continue
-      read -p "Do you want to update? [y/N] " -n 1 -r
-      if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-        return 0
-      fi
-      echo
+      # read -p "Do you want to update? [y/N] " -n 1 -r
+      # if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      #   return 0
+      # fi
+      # echo
 
       # download go
       if type -P /usr/bin/curl &>/dev/null; then
