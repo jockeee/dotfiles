@@ -138,7 +138,6 @@ upd_go() {
       echo "Update available: $current_go_version -> $latest_go_version"
       echo
       
-      # ask user to continue
       # read -p "Do you want to update? [y/N] " -n 1 -r
       # if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       #   return 0
