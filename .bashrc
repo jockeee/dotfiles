@@ -41,7 +41,7 @@ upd_ubuntu() {
   if type -P /usr/bin/snap &>/dev/null; then
     echo -e '\e[1mUpdating snap apps\e[0m'
     echo -e '\e[3msudo snap refresh\e[0m\n'
-    sudo /usr/bin/snap refresh    # requires sudo unless authenticated to a Ubuntu One/SSO account
+    sudo /usr/bin/snap refresh # requires sudo unless authenticated to a Ubuntu One/SSO account
     echo
   fi
   upd_npm
@@ -137,7 +137,7 @@ upd_go() {
     if [ $need_update == true ]; then
       echo "Update available: $current_go_version -> $latest_go_version"
       echo
-      
+
       # read -p "Do you want to update? [y/N] " -n 1 -r
       # if [[ ! $REPLY =~ ^[Yy]$ ]]; then
       #   return 0
@@ -181,19 +181,19 @@ upd_go() {
 
 if [ -e /etc/os-release ]; then
   os_id=$(grep -E "^ID=" /etc/os-release | cut -d= -f2)
-  
+
   case $os_id in
-    'fedora')
-      if type -P /usr/bin/dnf5 &>/dev/null; then
-        alias dnf='dnf5'
-      fi
-      export -f upd_fedora
-      alias upd='upd_fedora'
-      ;;
-    'ubuntu')
-      export -f upd_ubuntu
-      alias upd='upd_ubuntu'
-      ;;
+  'fedora')
+    if type -P /usr/bin/dnf5 &>/dev/null; then
+      alias dnf='dnf5'
+    fi
+    export -f upd_fedora
+    alias upd='upd_fedora'
+    ;;
+  'ubuntu')
+    export -f upd_ubuntu
+    alias upd='upd_ubuntu'
+    ;;
   esac
 fi
 
