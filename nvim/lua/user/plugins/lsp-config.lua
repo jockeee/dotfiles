@@ -238,10 +238,10 @@ return {
     -- for you, so that they are available from within Neovim.
     local ensure_installed = vim.tbl_keys(servers or {})
     vim.list_extend(ensure_installed, {
-      -- lua
-      'stylua', -- lua formatter
       -- bash
       'shfmt', -- bash formatter
+      -- lua
+      'stylua', -- lua formatter
       -- html
       'prettier', -- html formatter
       'prettierd', -- html formatter, daemon style
