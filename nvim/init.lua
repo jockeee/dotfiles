@@ -1,9 +1,5 @@
--- --------------------
--- INIT.LUA
--- --------------------
-
--- https://templ.guide/commands-and-tools/ide-support/#neovim--050
-vim.filetype.add { extension = { templ = 'templ' } }
+--
+-- init.lua
 
 -- --------------------
 -- globals
@@ -23,6 +19,7 @@ vim.g.colorscheme = 'catppuccin'
 -- user
 -- --------------------
 
+require 'user.filetypes'
 require 'user.options'
 require 'user.lazy'
 require 'user.autocmds'

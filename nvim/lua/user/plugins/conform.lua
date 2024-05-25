@@ -1,11 +1,9 @@
--- --------------------
--- CONFORM
--- --------------------
-
+--
 -- https://github.com/stevearc/conform.nvim
---  :ConformInfo
+-- Lightweight yet powerful formatter plugin for Neovim
+--
+-- :ConformInfo
 
--- autoformat
 return {
   'stevearc/conform.nvim',
   lazy = false,
@@ -32,16 +30,26 @@ return {
       }
     end,
     formatters_by_ft = {
-      lua = { 'stylua' },
-      -- Conform can also run multiple formatters sequentially
+      -- Specify formatters by filetype
+      --
+      -- Conform can run multiple formatters sequentially
       -- python = { "isort", "black" },
       --
       -- You can use a sub-list to tell conform to run *until* a formatter
       -- is found.
       -- javascript = { { 'prettierd', 'prettier' } },
+      bash = { 'shfmt' },
+      lua = { 'stylua' },
       html = { { 'prettierd', 'prettier' } },
       javascript = { { 'prettierd', 'prettier' } },
       go = { 'gofumpt', 'goimports-reviser' },
+    },
+    formatters_by_ext = {
+      -- Specify formatters by file extension
+      --
+      -- ["py"] = { "isort", "black" },
+      -- ["js"] = { { 'prettierd', 'prettier' } },
+      -- ["ts"] = { { 'prettierd', 'prettier' } },
     },
   },
 }
