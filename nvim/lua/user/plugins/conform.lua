@@ -41,6 +41,7 @@ return {
       -- javascript = { { 'prettierd', 'prettier' } },
       html = { { 'prettierd', 'prettier' } },
       javascript = { { 'prettierd', 'prettier' } },
+      go = { 'gofumpt', 'goimports-reviser' },
     },
   },
 }
