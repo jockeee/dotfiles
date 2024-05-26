@@ -14,7 +14,7 @@ return {
   -- ui/ux
   -- --------------------
 
-  require 'user.plugins.catppuccin', -- colorscheme
+  require 'user.plugins.colorscheme', -- colorscheme
   'tpope/vim-sleuth', -- detect tabstop and shiftwidth automatically
 
   require 'user.plugins.todo-comments', -- highlight todo, notes, etc in comments

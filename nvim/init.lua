@@ -13,7 +13,9 @@ vim.g.maplocalleader = ' '
 -- set to true if you have a nerd font installed
 vim.g.have_nerd_font = true
 
-vim.g.colorscheme = 'catppuccin'
+-- colorscheme
+vim.g.colorscheme = 'vscode'
+vim.g.colorscheme_lualine = 'catppuccin'
 
 -- --------------------
 -- user

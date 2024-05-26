@@ -11,6 +11,7 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font }, -- for pretty icons, but requires a nerd font
   opts = {
     options = {
+      theme = vim.g.colorscheme_lualine,
       icons_enabled = vim.g.have_nerd_font,
       component_separators = '',
       section_separators = '',
