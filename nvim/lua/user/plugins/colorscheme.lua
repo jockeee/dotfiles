@@ -11,9 +11,9 @@ return {
     'catppuccin/nvim',
     name = 'catppuccin',
     priority = 1000,
-    init = function()
-      vim.cmd.colorscheme 'catppuccin'
-    end,
+    -- init = function()
+    --   vim.cmd.colorscheme 'catppuccin'
+    -- end,
   },
 
   -- sonokai
@@ -31,12 +31,12 @@ return {
 
   -- https://github.com/Mofiqul/vscode.nvim
   -- Neovim/Vim color scheme inspired by Dark+ and Light+ theme in Visual Studio Code
-  -- {
-  --   'Mofiqul/vscode.nvim',
-  --   name = 'vscode',
-  --   priority = 1000,
-  --   init = function()
-  --     vim.cmd.colorscheme 'vscode'
-  --   end,
-  -- },
+  {
+    'Mofiqul/vscode.nvim',
+    name = 'vscode',
+    priority = 1000,
+    init = function()
+      vim.cmd.colorscheme 'vscode'
+    end,
+  },
 }
