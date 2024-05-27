@@ -60,6 +60,7 @@ vim.keymap.set('n', '\\', '<cmd>Neotree focus<cr>', { desc = 'Neotree' })
 -- leader-d: document (everything buffer related as well, you don't want to hit b key for it)
 -- --------------------
 
+vim.keymap.set('n', '<leader>da', '<cmd>AerialToggle!<CR>')
 vim.keymap.set('n', '<leader>dd', '<cmd>bdelete<cr>', { desc = 'Buffer delete' })
 vim.keymap.set('n', '<leader>dx', '<cmd>bdelete!<cr>', { desc = 'Buffer kill (ignore unsaved changes)' })
 

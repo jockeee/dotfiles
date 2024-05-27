@@ -37,11 +37,12 @@ return {
   require 'user.plugins.vim-tmux-navigator', -- ctrl-hjkl\ keymaps that works with both tmux and nvim panes
   { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
   require 'user.plugins.mini', -- collection of various small independent plugins/modules
+  require 'user.plugins.aerial', -- code outline window
 
   require 'user.plugins.toggleterm',
   require 'user.plugins.github-copilot',
 
-  require 'user.plugins.vim-visual-multi',
+  -- require 'user.plugins.vim-visual-multi',
   -- require 'user.plugins.auto-session',
   -- require 'user.plugins.nvim-autopairs',
   -- require 'user.plugins.multicursors',

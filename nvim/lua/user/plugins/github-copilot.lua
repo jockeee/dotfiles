@@ -8,7 +8,12 @@
 return {
   'github/copilot.vim',
   config = function()
-    vim.keymap.set('i', '<C-F>', 'copilot#Accept("\\<CR>")', {
+    -- accept line
+    vim.keymap.set('i', '<C-F>', '<Plug>(copilot-accept-line)')
+    -- accept word
+    vim.keymap.set('i', '<C-N>', '<Plug>(copilot-accept-word)')
+    -- accept suggestion
+    vim.keymap.set('i', '<C-G>', 'copilot#Accept("\\<CR>")', {
       expr = true,
       replace_keycodes = false,
     })
