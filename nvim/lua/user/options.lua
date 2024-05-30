@@ -18,7 +18,8 @@ vim.opt.clipboard = 'unnamedplus'
 vim.opt.termguicolors = true -- true color support
 vim.opt.background = 'dark'
 vim.opt.signcolumn = 'yes'
-vim.opt.showmode = false -- don't show the mode, since it's already in status line
+vim.opt.showmode = false
+vim.opt.colorcolumn = '' -- right margin column
 
 -- line numbers
 vim.opt.number = true

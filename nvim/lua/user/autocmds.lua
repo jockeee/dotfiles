@@ -4,6 +4,8 @@
 
 -- on nvim startup, if no arguments was specified, open telescope find_files()
 vim.api.nvim_create_autocmd('VimEnter', {
+  desc = 'Open telescope find_files() on startup',
+  group = vim.api.nvim_create_augroup('open-telescope-find_files', { clear = true }),
   callback = function()
     if vim.fn.argv(0) == '' then
       -- this checks prevents error when lazy is doing installs on startup,

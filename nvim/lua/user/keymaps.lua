@@ -63,7 +63,12 @@ vim.keymap.set('n', '\\', '<cmd>Neotree focus<cr>', { desc = 'Neotree' })
 vim.keymap.set('n', '<leader>da', '<cmd>AerialToggle!<CR>')
 vim.keymap.set('n', '<leader>dd', '<cmd>bdelete<cr>', { desc = 'Buffer delete' })
 vim.keymap.set('n', '<leader>dx', '<cmd>bdelete!<cr>', { desc = 'Buffer kill (ignore unsaved changes)' })
-
+vim.keymap.set(
+  'n',
+  '<leader>dc',
+  '<cmd>lua vim.opt.colorcolumn = vim.inspect(vim.opt.colorcolumn:get()) == "{}" and { 79 } or {}<cr>',
+  { desc = 'Toggle colorcolumn' }
+)
 -- --------------------
 -- leader-f: find
 -- --------------------
