@@ -35,6 +35,13 @@ vim.opt.autoindent = true
 vim.opt.wrap = false -- default: on
 vim.opt.breakindent = true -- wrapped lines will continue visually indented
 
+-- folding
+vim.opt.foldcolumn = '1'
+vim.opt.foldmethod = 'indent'
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldenable = true -- default: on
+
 -- search settings
 -- case-insensitive searching UNLESS \C or capital in search
 vim.opt.hlsearch = true -- highlight search results -- default: on
