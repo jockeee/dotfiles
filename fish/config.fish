@@ -38,4 +38,9 @@ if status is-interactive
   if command -q zoxide
     zoxide init --cmd cd fish | source
   end
+
+  # npm via nvm, and plugin jorgebucaran/nvm.fish
+  if functions -q nvm
+    nvm use lts 1>/dev/null
+  end
 end
