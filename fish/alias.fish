@@ -6,7 +6,10 @@ alias l 'ls -l'
 alias la 'ls -lA'
 alias laz 'ls -laZ'
 
-alias bat 'bat -p'
+if command -q /usr/bin/bat
+  alias bat 'bat -p'
+end
+
 if command -q /usr/bin/eza
   alias ls 'eza -g --git'
   alias tree 'eza -aT --git-ignore'
@@ -18,11 +21,16 @@ end
 ##
 
 # c<space> to see it in action
-abbr --add c 'bat'
 abbr --add g 'git'
 abbr --add t 'tmux'
 abbr --add tm 'tmux'
 abbr --add v 'vim'
+
+if command -q /usr/bin/bat
+  abbr --add c 'bat'
+else
+  abbr --add c 'cat'
+end
 
 if command -q /usr/bin/btop
   abbr --add top 'btop'
@@ -56,8 +64,7 @@ abbr --add gs 'git status'
 ## FUNCTIONS
 ##
 
-# you like batdiff, it shows all changed files if no filename is given.
-# you like the output, very readable for quick overview.
+# You like the output of batdiff for quick overview.
 function batdiff
   git diff --name-only --relative --diff-filter=d $argv | xargs bat --diff
 end
