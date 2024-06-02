@@ -65,10 +65,12 @@ abbr --add gs 'git status'
 ##
 
 # You like the output of batdiff for quick overview.
-function batdiff
-  git diff --name-only --relative --diff-filter=d $argv | xargs bat --diff
+if command -q /usr/bin/bat
+  function batdiff
+    git diff --name-only --relative --diff-filter=d $argv | xargs bat --diff
+  end
+  abbr --add d 'batdiff'
 end
-abbr --add d 'batdiff'
 
 # used by: gg function
 # from   : https://github.com/oh-my-fish/oh-my-fish/blob/master/lib/git/git_is_repo.fish
