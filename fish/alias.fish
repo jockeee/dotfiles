@@ -6,11 +6,11 @@ alias l 'ls -l'
 alias la 'ls -lA'
 alias laz 'ls -laZ'
 
-if command -q /usr/bin/bat
+if command -q bat
   alias bat 'bat -p'
 end
 
-if command -q /usr/bin/eza
+if command -q eza
   alias ls 'eza -g --git'
   alias tree 'eza -aT --git-ignore'
 end
@@ -26,13 +26,13 @@ abbr --add t 'tmux'
 abbr --add tm 'tmux'
 abbr --add v 'vim'
 
-if command -q /usr/bin/bat
+if command -q bat
   abbr --add c 'bat'
 else
   abbr --add c 'cat'
 end
 
-if command -q /usr/bin/btop
+if command -q btop
   abbr --add top 'btop'
 end
 
@@ -65,7 +65,7 @@ abbr --add gs 'git status'
 ##
 
 # You like the output of batdiff for quick overview.
-if command -q /usr/bin/bat
+if command -q bat
   function batdiff
     git diff --name-only --relative --diff-filter=d $argv | xargs bat --diff
   end
@@ -233,6 +233,12 @@ function upd_go -d 'golang update'
       return 1
     end
 
+    # if sha256sum not found, exit
+    if not command -q sha256sum
+      echo "Error: 'sha256sum' not found"
+      return 1
+    end
+
     set os (uname -s | tr '[:upper:]' '[:lower:]')
     set arch (uname -m)
     if test $arch = 'x86_64'
@@ -331,4 +337,122 @@ function upd_go -d 'golang update'
     echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
     echo
   end
+end
+
+function install_go -d 'golang install'
+  # example download url: https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
+  echo -e '\e[1mInstalling golang (globally)\e[0m'
+  echo -e '\e[3mhttps://go.dev/dl\e[0m'
+  echo
+
+  # if neither curl nor wget found, exit
+  if not command -q curl -a command -q wget
+    echo "Error: Neither 'curl' nor 'wget' found"
+    return 1
+  end
+
+  # if jq not found, exit 
+  if not command -q jq
+    echo "Error: 'jq' not found"
+    return 1
+  end
+
+  # if sha256sum not found, exit
+  if not command -q sha256sum
+    echo "Error: 'sha256sum' not found"
+    return 1
+  end
+
+  # if mktemp not found, exit
+  if not command -q mktemp
+    echo "Error: 'mktemp' not found"
+    return 1
+  end
+
+  set os (uname -s | tr '[:upper:]' '[:lower:]')
+  set arch (uname -m)
+  if test $arch = 'x86_64'
+    set arch 'amd64'
+  end
+  set kind 'archive'
+  set temp_file (mktemp)
+  set download_url_base 'https://go.dev/dl/'
+
+  # download json
+  if command -q curl
+    set go_dev_json (curl -s 'https://go.dev/dl/?mode=json')
+  else
+    set go_dev_json (wget -qO- 'https://go.dev/dl/?mode=json')
+  end
+
+  if test $status -ne 0
+    echo "Error: Couldn't retrieve JSON response from 'https://go.dev/dl/?mode=json'"
+    return 1
+  end
+
+  set latest_go_version (echo $go_dev_json | jq -r '.[0].version')
+  set selected_json (echo $go_dev_json | jq -r --arg os "$os" --arg arch "$arch" --arg kind "$kind" --arg version "$latest_go_version" '.[0].files[] | select(.os == $os and .arch == $arch and .kind == $kind and .version == $version)')
+
+  if test -n "$selected_json"
+    set download_filename (echo $selected_json | jq -r '.filename')
+    set download_checksum (echo $selected_json | jq -r '.sha256')
+  else
+    echo "Error: Couldn't find the latest version for $os-$arch in the JSON response"
+    return 1
+  end
+
+  # check archive type based on filename
+  if test (echo $download_filename | grep -q '.tar.gz')
+    set archive_type 'tar.gz'
+  else if test (echo $download_filename | grep -q '.tar.xz')
+    set archive_type 'tar.xz'
+  else
+    echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
+    echo "Filename: $download_filename"
+    return 1
+  end
+
+  echo "Version available: $latest_go_version"
+  echo
+
+  read -l -P "Do you want to install Go? [y/N]: " continue
+  if test $continue != "y" -a $continue != "Y"
+    return 0
+  end
+  echo
+
+  # download go
+  if command -q curl
+    curl -L -o $temp_file "$download_url_base$download_filename"
+  else
+    wget -q --show-progress -O $temp_file "$download_url_base$download_filename"
+  end
+
+  if test $status -ne 0
+    echo "Error: Download failed"
+    rm $temp_file
+    return 1
+  end
+
+  # verify checksum
+  set checksum (sha256sum $temp_file | cut -d' ' -f1)
+  if test $checksum != $download_checksum
+    echo "Error: Checksum verification failed"
+    rm $temp_file
+    return 1
+  end
+
+  # install
+  sudo rm -rf /usr/local/go
+  # tar flags, based on archive type
+  if test $archive_type = 'tar.gz'
+    sudo tar -C /usr/local -xzf $temp_file
+  else if test $archive_type = 'tar.xz'
+    sudo tar -C /usr/local -xJf $temp_file
+  end
+  rm $temp_file
+
+  echo
+  echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
+  echo
 end
