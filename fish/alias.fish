@@ -402,13 +402,14 @@ function install_go -d 'golang install'
   end
 
   # check archive type based on filename
-  if test (echo $download_filename | grep -q '.tar.gz')
+  switch $filename
+  case '*.tar.gz'
     set archive_type 'tar.gz'
-  else if test (echo $download_filename | grep -q '.tar.xz')
+  case '*.tar.xz'
     set archive_type 'tar.xz'
-  else
+  case '*'
     echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
-    echo "Filename: $download_filename"
+    echo "Filename: $filename"
     return 1
   end
 
@@ -444,15 +445,34 @@ function install_go -d 'golang install'
 
   # install
   sudo rm -rf /usr/local/go
-  # tar flags, based on archive type
-  if test $archive_type = 'tar.gz'
-    sudo tar -C /usr/local -xzf $temp_file
-  else if test $archive_type = 'tar.xz'
-    sudo tar -C /usr/local -xJf $temp_file
+  sudo tar -C /usr/local -xf $temp_file
+
+  if test $status -ne 0
+    echo "Error: Archive extraction failed"
+    sudo rm -rf /usr/local/go
+    rm $temp_file
+    return 1
   end
+
+
   rm $temp_file
 
   echo
   echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
   echo
+end
+
+function leker -d 'leker'
+  set filename 'go1.22.3.linux-amd64.tar.gz'
+
+  switch $filename
+  case '*.tar.gz'
+    set archive_type 'tar.gz'
+  case '*.tar.xz'
+    set archive_type 'tar.xz'
+  case '*'
+    echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
+    echo "Filename: $filename"
+    return 1
+  end
 end
