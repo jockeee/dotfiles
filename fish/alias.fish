@@ -402,14 +402,14 @@ function install_go -d 'golang install'
   end
 
   # check archive type based on filename
-  switch $filename
+  switch $download_filename
   case '*.tar.gz'
     set archive_type 'tar.gz'
   case '*.tar.xz'
     set archive_type 'tar.xz'
   case '*'
     echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
-    echo "Filename: $filename"
+    echo "Filename: $download_filename"
     return 1
   end
 
@@ -454,25 +454,9 @@ function install_go -d 'golang install'
     return 1
   end
 
-
   rm $temp_file
 
   echo
   echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
   echo
-end
-
-function leker -d 'leker'
-  set filename 'go1.22.3.linux-amd64.tar.gz'
-
-  switch $filename
-  case '*.tar.gz'
-    set archive_type 'tar.gz'
-  case '*.tar.xz'
-    set archive_type 'tar.xz'
-  case '*'
-    echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
-    echo "Filename: $filename"
-    return 1
-  end
 end
