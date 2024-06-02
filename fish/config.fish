@@ -2,9 +2,6 @@ if status is-interactive
   # set fish_greeting to empty = not showing
   set -U fish_greeting
 
-  # $XDG_CONFIG_HOME
-  set -Ux XDG_CONFIG_HOME $HOME/.config
-  
   # $EDITOR
   set -Ux EDITOR '/usr/bin/vim'
 
