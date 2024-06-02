@@ -239,6 +239,18 @@ function upd_go -d 'golang update'
       return 1
     end
 
+    # if mktemp not found, exit
+    if not command -q mktemp
+      echo "Error: 'mktemp' not found"
+      return 1
+    end
+
+    # if tar not found, exit
+    if not command -q tar
+      echo "Error: 'tar' not found"
+      return 1
+    end
+
     set os (uname -s | tr '[:upper:]' '[:lower:]')
     set arch (uname -m)
     if test $arch = 'x86_64'
@@ -304,6 +316,16 @@ function upd_go -d 'golang update'
       # end
       # echo
 
+      # check archive type based on filename
+      switch $download_filename
+      case '*.tar*'
+        set archive_type 'tar'
+      case '*'
+        echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
+        echo "Filename: $download_filename"
+        return 1
+      end
+
       # download go
       if command -q curl
         curl -L -o $temp_file "$download_url_base$download_filename"
@@ -327,7 +349,15 @@ function upd_go -d 'golang update'
 
       # update
       sudo rm -rf /usr/local/go
-      sudo tar -C /usr/local -xzf $temp_file
+      sudo tar -C /usr/local -xf $temp_file
+
+      if test $status -ne 0
+        echo "Error: Archive extraction failed"
+        sudo rm -rf /usr/local/go
+        rm $temp_file
+        return 1
+      end
+
       rm $temp_file
     else
       echo "No update available"
@@ -369,6 +399,12 @@ function install_go -d 'golang install'
     return 1
   end
 
+  # if tar not found, exit
+  if not command -q tar
+    echo "Error: 'tar' not found"
+    return 1
+  end
+
   set os (uname -s | tr '[:upper:]' '[:lower:]')
   set arch (uname -m)
   if test $arch = 'x86_64'
@@ -401,18 +437,6 @@ function install_go -d 'golang install'
     return 1
   end
 
-  # check archive type based on filename
-  switch $download_filename
-  case '*.tar.gz'
-    set archive_type 'tar.gz'
-  case '*.tar.xz'
-    set archive_type 'tar.xz'
-  case '*'
-    echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
-    echo "Filename: $download_filename"
-    return 1
-  end
-
   echo "Version available: $latest_go_version"
   echo
 
@@ -421,6 +445,16 @@ function install_go -d 'golang install'
     return 0
   end
   echo
+
+  # check archive type based on filename
+  switch $download_filename
+  case '*.tar*'
+    set archive_type 'tar'
+  case '*'
+    echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
+    echo "Filename: $download_filename"
+    return 1
+  end
 
   # download go
   if command -q curl
