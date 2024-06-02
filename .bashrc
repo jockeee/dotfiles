@@ -1,3 +1,4 @@
+#
 # default distro ~/.bashrc above
 
 ##
@@ -201,3 +202,6 @@ fi
 if type -P /usr/bin/zoxide &>/dev/null; then
   eval "$(zoxide init bash)"
 fi
+
+# autocd
+shopt -s autocd
