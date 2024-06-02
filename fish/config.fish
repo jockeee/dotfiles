@@ -19,11 +19,6 @@ if status is-interactive
     fish_add_path $HOME/.local/bin
   end
 
-  # $PATH: ~/.cargo/bin
-  if test -d $HOME/.cargo/bin
-    fish_add_path $HOME/.cargo/bin
-  end
-
   # $PATH: /usr/local/go/bin
   if test -d /usr/local/go/bin
     fish_add_path /usr/local/go/bin
@@ -34,8 +29,13 @@ if status is-interactive
     fish_add_path $HOME/go/bin
   end
 
+  # $PATH: ~/.cargo/bin
+  if test -d $HOME/.cargo/bin
+    fish_add_path $HOME/.cargo/bin
+  end
+
   # zoxide, smarter cd
-  if command -q /usr/bin/zoxide
+  if command -q zoxide
     zoxide init --cmd cd fish | source
   end
 end
