@@ -212,10 +212,10 @@ function upd_npm -d 'npm update'
     echo "NPM version: $(/usr/local/bin/npm --version)"
     echo
   end
-  if function -q nvm
+  if functions -q nvm
     echo -e '\e[1mUpdating npm (for user)\e[0m'
     echo -e '\e[3mnpm install -g npm@latest\e[0m'
-    nvm use lts 1>/dev/null
+    nvm use lts
     npm install -g npm@latest
     echo
     echo "NPM version: $(npm --version)"
