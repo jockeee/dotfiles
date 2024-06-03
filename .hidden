@@ -1,0 +1,6 @@
+# Nautilus still respects the .hidden file
+# So in theory, putting “Desktop” into ~/.hidden will hide the Desktop folder in the Nautilus view.
+# https://discourse.gnome.org/t/how-should-we-use-the-desktop-folder-in-gnome/8619/4
+Desktop
+go
+snap
