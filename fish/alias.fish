@@ -214,7 +214,7 @@ function upd_npm -d 'npm update'
   end
   if functions -q nvm
     echo -e '\e[1mUpdating npm (for user)\e[0m'
-    echo -e '\e[3mnpm install -g npm@latest\e[0m'
+    echo -e '\e[3mnpm install -g npm@latest\e[0m\n'
     nvm use lts
     npm install -g npm@latest
     echo
