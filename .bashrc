@@ -28,8 +28,8 @@ upd_fedora() {
     /usr/bin/flatpak update -y
     echo
   fi
-  upd_npm
   upd_go
+  upd_npm
 }
 
 upd_ubuntu() {
@@ -45,8 +45,8 @@ upd_ubuntu() {
     sudo /usr/bin/snap refresh # requires sudo unless authenticated to a Ubuntu One/SSO account
     echo
   fi
-  upd_npm
   upd_go
+  upd_npm
 }
 
 upd_npm() {
