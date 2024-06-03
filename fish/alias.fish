@@ -168,8 +168,8 @@ if test -e /etc/os-release
           echo
         end
         upd_fisher
-        upd_npm
         upd_go
+        upd_npm
       end
     case 'ubuntu'
       function upd -d 'system update, snap apps update, fisher plugins update'
@@ -188,8 +188,8 @@ if test -e /etc/os-release
           echo
         end
         upd_fisher
-        upd_npm
         upd_go
+        upd_npm
       end
   end
 end
@@ -213,7 +213,7 @@ function upd_npm -d 'npm update'
     echo
   end
   if functions -q nvm
-    echo -e '\e[1mUpdating npm (for user)\e[0m'
+    echo -e '\e[1mUpdating npm\e[0m'
     echo -e '\e[3mnvm use lts, npm install -g npm@latest\e[0m\n'
     nvm use lts
     npm install -g npm@latest
