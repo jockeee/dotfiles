@@ -1,5 +1,5 @@
 ##
-## ALIAS
+## Alias
 ##
 
 alias l 'ls -l'
@@ -17,7 +17,7 @@ end
 
 
 ##
-## ABBREVIATIONS
+## Abbreviations
 ##
 
 # c<space> to see it in action
@@ -61,7 +61,7 @@ abbr --add gs 'git status'
 
 
 ##
-## FUNCTIONS
+## Functions
 ##
 
 # You like the output of batdiff for quick overview.
@@ -210,6 +210,15 @@ function upd_npm -d 'npm update'
     sudo /usr/local/bin/npm install -g npm@latest
     echo
     echo "NPM version: $(/usr/local/bin/npm --version)"
+    echo
+  end
+  if function -q nvm
+    echo -e '\e[1mUpdating npm (for user)\e[0m'
+    echo -e '\e[3mnpm install -g npm@latest\e[0m'
+    nvm use lts 1>/dev/null
+    npm install -g npm@latest
+    echo
+    echo "NPM version: $(npm --version)"
     echo
   end
 end
