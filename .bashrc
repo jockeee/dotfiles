@@ -206,7 +206,7 @@ upd_bashrc() {
     return 1
   fi
 
-  curl -q https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
     echo
     echo "Error: Couldn't update ~/.bashrc"
