@@ -199,13 +199,15 @@ upd_bashrc() {
   # create backup
   cp ~/.bashrc ~/.bashrc.bak
 
+  # remove current additions
   sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
   if [ $? -ne 0 ]; then
-    echo "Error: Couldn't clean ~/.bashrc from previous additions."
+    echo "Error: Couldn't clean ~/.bashrc from current additions."
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
 
+  # add new additions
   curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
     echo
@@ -215,6 +217,7 @@ upd_bashrc() {
   fi
   echo
 
+  # source ~/.bashrc
   source ~/.bashrc
   if [ $? -ne 0 ]; then
     echo
