@@ -193,6 +193,7 @@ upd_go() {
 
 upd_bashrc() {
   echo -e '\e[1mUpdating ~/.bashrc\e[0m'
+  echo
 
   # create backup
   cp ~/.bashrc ~/.bashrc.bak
@@ -218,7 +219,6 @@ upd_bashrc() {
     return 1
   fi
 
-  echo
   echo "Success"
   echo
 }
