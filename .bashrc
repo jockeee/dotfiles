@@ -215,7 +215,6 @@ upd_bashrc() {
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
-  echo
 
   # source ~/.bashrc
   source ~/.bashrc
@@ -228,7 +227,6 @@ upd_bashrc() {
 
   rm -f ~/.bashrc.bak
 
-  echo
   echo "Success"
   echo
 }
