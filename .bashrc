@@ -193,61 +193,21 @@ upd_go() {
   fi
 }
 
-upd_bashrc_remove_previous_additions() {
-  echo -e '\e[1mRemoving previous additions\e[0m\n'
-
-  sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
-  if [ $? -ne 0 ]; then
-    echo "Error: Couldn't clean ~/.bashrc from previous additions."
-    return 1
-  fi
-}
-
-upd_bashrc_add_new_additions() {
-  echo -e '\e[1mAdding new additions\e[0m\n'
-
-  echo -e '\e[3mDownloading new additions\e[0m'
-
-  curl https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
-  if [ $? -ne 0 ]; then
-    echo
-    echo "Error: Couldn't update ~/.bashrc"
-    return 1
-  fi
-  echo
-
-  echo -e '\e[1mSourcing ~/.bashrc\e[0m\n'
-
-  source ~/.bashrc
-  if [ $? -ne 0 ]; then
-    echo
-    echo "Error: Couldn't source ~/.bashrc"
-    return 1
-  fi
-
-}
-
 upd_bashrc() {
   echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
   # create backup
   cp ~/.bashrc ~/.bashrc.bak
 
-  echo 'removing previous additions'
   sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
-  echo 'removed previous additions'
   if [ $? -ne 0 ]; then
-    echo 'error 1'
     echo "Error: Couldn't clean ~/.bashrc from previous additions."
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
 
-  echo 'adding new additions'
-  curl -H 'Cache-Control: no-cache' -q https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
-  echo 'added new additions'
+  curl -q https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
-    echo 'error 2'
     echo
     echo "Error: Couldn't update ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
@@ -255,20 +215,15 @@ upd_bashrc() {
   fi
   echo
 
-  echo 'sourcing ~/.bashrc'
   source ~/.bashrc
-  echo 'sourced ~/.bashrc'
   if [ $? -ne 0 ]; then
-    echo 'error 3'
     echo
     echo "Error: Couldn't source ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
 
-  echo 'removing backup'
-  rm ~/.bashrc.bak
-  echo 'removed backup'
+  rm -f ~/.bashrc.bak
 
   echo
   echo "Success"
