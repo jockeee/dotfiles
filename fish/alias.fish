@@ -205,7 +205,7 @@ end
 
 function upd_npm -d 'npm update'
   if command -q /usr/local/bin/npm
-    echo -e '\e[1mUpdating npm (globally)\e[0m'
+    echo -e '\e[1mUpdating npm\e[0m'
     echo -e '\e[3msudo npm install -g npm@latest\e[0m'
     sudo /usr/local/bin/npm install -g npm@latest
     echo
@@ -226,7 +226,7 @@ end
 function upd_go -d 'golang update'
   # example download url: https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
   if command -q /usr/local/go/bin/go
-    echo -e '\e[1mUpdating golang (globally)\e[0m'
+    echo -e '\e[1mUpdating golang\e[0m'
     echo -e '\e[3mhttps://go.dev/dl\e[0m'
     echo
 
@@ -380,7 +380,7 @@ end
 
 function install_go -d 'golang install'
   # example download url: https://go.dev/dl/go1.22.3.linux-amd64.tar.gz
-  echo -e '\e[1mInstalling golang (globally)\e[0m'
+  echo -e '\e[1mInstalling golang\e[0m'
   echo -e '\e[3mhttps://go.dev/dl\e[0m'
   echo
 
