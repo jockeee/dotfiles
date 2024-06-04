@@ -51,7 +51,7 @@ upd_ubuntu() {
 
 upd_npm() {
   if type -P /usr/local/bin/npm &>/dev/null; then
-    echo -e '\e[1mUpdating npm (globally)\e[0m'
+    echo -e '\e[1mUpdating npm\e[0m'
     echo -e '\e[3msudo npm install -g npm@latest\e[0m'
     sudo /usr/local/bin/npm install -g npm@latest
     echo
