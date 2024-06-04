@@ -193,15 +193,30 @@ upd_go() {
 
 upd_bashrc() {
   echo -e '\e[1mUpdating ~/.bashrc\e[0m'
-  # do this command to download the latest version of this file, and append it to ~/.bashrc
-  # first remove the existing lines we appended, look for:
-  # # default distro ~/.bashrc above
-  # and remove everything below it
-  # then append the latest version of this file
-  # then source ~/.bashrc
-  sed -i '/# default distro ~/.bashrc above/,$d' ~/.bashrc
-  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc | tee -a ~/.bashrc
+
+  # create backup
+  cp ~/.bashrc ~/.bashrc.bak
+
+  sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
+  if [ $? -ne 0 ]; then
+    echo "Error: Couldn't clean ~/.bashrc from previous additions."
+    mv ~/.bashrc.bak ~/.bashrc
+    return 1
+  fi
+
+  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  if [ $? -ne 0 ]; then
+    echo "Error: Couldn't update ~/.bashrc"
+    mv ~/.bashrc.bak ~/.bashrc
+    return 1
+  fi
+
   source ~/.bashrc
+  if [ $? -ne 0 ]; then
+    echo "Error: Couldn't source ~/.bashrc"
+    mv ~/.bashrc.bak ~/.bashrc
+    return 1
+  fi
   echo
 }
 
