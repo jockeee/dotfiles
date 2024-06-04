@@ -193,6 +193,40 @@ upd_go() {
   fi
 }
 
+upd_bashrc_remove_previous_additions() {
+  echo -e '\e[1mRemoving previous additions\e[0m\n'
+
+  sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
+  if [ $? -ne 0 ]; then
+    echo "Error: Couldn't clean ~/.bashrc from previous additions."
+    return 1
+  fi
+}
+
+upd_bashrc_add_new_additions() {
+  echo -e '\e[1mAdding new additions\e[0m\n'
+
+  echo -e '\e[3mDownloading new additions\e[0m'
+
+  curl https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  if [ $? -ne 0 ]; then
+    echo
+    echo "Error: Couldn't update ~/.bashrc"
+    return 1
+  fi
+  echo
+
+  echo -e '\e[1mSourcing ~/.bashrc\e[0m\n'
+
+  source ~/.bashrc
+  if [ $? -ne 0 ]; then
+    echo
+    echo "Error: Couldn't source ~/.bashrc"
+    return 1
+  fi
+
+}
+
 upd_bashrc() {
   echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
@@ -205,6 +239,9 @@ upd_bashrc() {
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
+
+  echo 'removing previous additions'
+  return 0
 
   curl -i https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
