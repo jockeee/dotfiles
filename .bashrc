@@ -206,20 +206,26 @@ upd_bashrc() {
     return 1
   fi
 
-  curl https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  curl -i https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
+    echo
     echo "Error: Couldn't update ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
+  echo
 
   source ~/.bashrc
   if [ $? -ne 0 ]; then
+    echo
     echo "Error: Couldn't source ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
     return 1
   fi
 
+  rm ~/.bashrc.bak
+
+  echo
   echo "Success"
   echo
 }
