@@ -12,10 +12,12 @@ alias c='cat'
 
 if type -P bat &>/dev/null; then
   alias bat='bat -p'
+  alias cat='bat'
 fi
 
 if type -P batcat &>/dev/null; then
   alias bat='batcat -p'
+  alias cat='bat'
 fi
 
 if type -P /usr/bin/eza &>/dev/null; then
@@ -192,8 +194,7 @@ upd_go() {
 }
 
 upd_bashrc() {
-  echo -e '\e[1mUpdating ~/.bashrc\e[0m'
-  echo
+  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
   # create backup
   cp ~/.bashrc ~/.bashrc.bak
