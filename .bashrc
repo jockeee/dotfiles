@@ -1,4 +1,3 @@
-#
 # default distro ~/.bashrc above
 
 ##
@@ -190,6 +189,20 @@ upd_go() {
     echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
     echo
   fi
+}
+
+upd_bashrc() {
+  echo -e '\e[1mUpdating ~/.bashrc\e[0m'
+  # do this command to download the latest version of this file, and append it to ~/.bashrc
+  # first remove the existing lines we appended, look for:
+  # # default distro ~/.bashrc above
+  # and remove everything below it
+  # then append the latest version of this file
+  # then source ~/.bashrc
+  sed -i '/# default distro ~/.bashrc above/,$d' ~/.bashrc
+  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc | tee -a ~/.bashrc
+  source ~/.bashrc
+  echo
 }
 
 if [ -e /etc/os-release ]; then
