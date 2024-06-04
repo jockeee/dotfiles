@@ -8,9 +8,21 @@
 alias l='ls -l'
 alias la='ls -lA'
 alias laz='ls -laZ'
+
+alias c='cat'
+
+if type -P bat &>/dev/null; then
+  alias bat='bat -p'
+fi
+
+if type -P batcat &>/dev/null; then
+  alias bat='batcat -p'
+fi
+
 if type -P /usr/bin/eza &>/dev/null; then
   alias ls='eza -g --git'
 fi
+
 if type -P /usr/bin/btop &>/dev/null; then
   alias top='btop'
 fi
