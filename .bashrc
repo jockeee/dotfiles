@@ -244,7 +244,7 @@ upd_bashrc() {
   fi
 
   echo 'adding new additions'
-  curl -i https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   echo 'added new additions'
   if [ $? -ne 0 ]; then
     echo 'error 2'
