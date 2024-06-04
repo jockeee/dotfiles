@@ -10,6 +10,10 @@ if command -q bat
   alias bat 'bat -p'
 end
 
+if command -q batcat
+  alias bat 'batcat -p'
+end
+
 if command -q eza
   alias ls 'eza -g --git'
   alias tree 'eza -aT --git-ignore'
@@ -26,7 +30,7 @@ abbr --add t 'tmux'
 abbr --add tm 'tmux'
 abbr --add v 'vim'
 
-if command -q bat
+if command -q bat; or command -q batcat
   abbr --add c 'bat'
 else
   abbr --add c 'cat'
