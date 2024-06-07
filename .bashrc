@@ -194,10 +194,12 @@ upd_go() {
 }
 
 upd_bashrc() {
-  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
+  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n\n'
 
   # create backup
-  cp ~/.bashrc ~/.bashrc.bak
+  if [ -e ~/.bashrc ]; then
+    cp ~/.bashrc ~/.bashrc.bak
+  fi
 
   # remove current additions
   sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
@@ -210,7 +212,6 @@ upd_bashrc() {
   # add new additions
   curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
-    echo
     echo "Error: Couldn't update ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
     return 1
@@ -219,7 +220,6 @@ upd_bashrc() {
   # source ~/.bashrc
   source ~/.bashrc
   if [ $? -ne 0 ]; then
-    echo
     echo "Error: Couldn't source ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
     return 1
@@ -227,6 +227,7 @@ upd_bashrc() {
 
   rm -f ~/.bashrc.bak
 
+  echo
   echo "Success"
   echo
 }
