@@ -270,7 +270,6 @@ function upd_go -d 'golang update'
       set arch 'amd64'
     end
     set kind 'archive'
-    set temp_file "/tmp/tmp.golang_install"
     set download_url_base 'https://go.dev/dl/'
 
     # download json
@@ -334,12 +333,13 @@ function upd_go -d 'golang update'
       case '*.tar*'
         set archive_type 'tar'
       case '*'
-        echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
+        echo "Error: Unknown archive type, expected a tar archive"
         echo "Filename: $download_filename"
         return 1
       end
 
       # download go
+      set temp_file "/tmp/tmp.golang_install"
       if command -q curl
         curl -L -o $temp_file "$download_url_base$download_filename"
       else
@@ -424,7 +424,6 @@ function install_go -d 'golang install'
     set arch 'amd64'
   end
   set kind 'archive'
-  set temp_file (mktemp)
   set download_url_base 'https://go.dev/dl/'
 
   # download json
@@ -464,12 +463,13 @@ function install_go -d 'golang install'
   case '*.tar*'
     set archive_type 'tar'
   case '*'
-    echo "Error: Unknown archive type, expected '.tar.gz' or '.tar.xz'"
+    echo "Error: Unknown archive type, expected a tar archive"
     echo "Filename: $download_filename"
     return 1
   end
 
   # download go
+  set temp_file (mktemp)
   if command -q curl
     curl -L -o $temp_file "$download_url_base$download_filename"
   else
@@ -505,5 +505,45 @@ function install_go -d 'golang install'
 
   echo
   echo "Go version: $(/usr/local/go/bin/go version | awk '{print $3}')"
+  echo
+end
+
+function upd_bashrc -d 'update bashrc'
+  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n\n'
+
+  # check if curl is available
+  if not command -q curl
+    echo "Error: 'curl' not found"
+    return 1
+  end
+
+  # create backup
+  if test -e ~/.bashrc
+    cp ~/.bashrc ~/.bashrc.bak
+  end
+
+  # remove current additions
+  sed -i '/# default distro ~\/.bashrc above/,$ d' ~/.bashrc
+  if test $status -ne 0
+    echo "Error: Couldn't clean ~/.bashrc from current additions."
+    mv ~/.bashrc.bak ~/.bashrc
+    return 1
+  end
+
+  # add new additions
+  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  if test $status -ne 0
+    echo "Error: Couldn't update ~/.bashrc"
+    mv ~/.bashrc.bak ~/.bashrc
+    return 1
+  end
+
+  # no source, we are in fish
+  # source ~/.bashrc
+
+  rm -f ~/.bashrc.bak
+
+  echo
+  echo "Success"
   echo
 end
