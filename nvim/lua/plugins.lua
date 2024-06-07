@@ -43,11 +43,11 @@ return {
   -- require 'user.plugins.aerial', -- code outline window
   -- require 'user.plugins.nvim-ufo', -- fold text objects
 
+  require 'user.plugins.auto-session',
   require 'user.plugins.toggleterm',
   require 'user.plugins.github-copilot',
 
   -- require 'user.plugins.vim-visual-multi',
-  -- require 'user.plugins.auto-session',
   -- require 'user.plugins.nvim-autopairs',
   -- require 'user.plugins.multicursors',
 
