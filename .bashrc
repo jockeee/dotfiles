@@ -227,7 +227,7 @@ upd_bashrc() {
 
   rm -f ~/.bashrc.bak
 
-  echo "Version: $(grep -E "^# VERSION" ~/.bashrc)"
+  echo "Version: $(grep -E "^# VERSION" ~/.bashrc | cut -d' ' -f3)"
   echo
 }
 
