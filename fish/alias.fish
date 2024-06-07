@@ -509,7 +509,7 @@ function install_go -d 'golang install'
 end
 
 function upd_bashrc -d 'update bashrc'
-  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n\n'
+  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
   # check if curl is available
   if not command -q curl
@@ -543,7 +543,5 @@ function upd_bashrc -d 'update bashrc'
 
   rm -f ~/.bashrc.bak
 
-  echo
-  echo "Success"
-  echo
+  echo "Version: $(grep -E "^# VERSION" ~/.bashrc | cut -d' ' -f3)"
 end
