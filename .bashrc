@@ -194,7 +194,7 @@ upd_go() {
 }
 
 upd_bashrc() {
-  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n\n'
+  echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
   # create backup
   if [ -e ~/.bashrc ]; then
@@ -227,8 +227,7 @@ upd_bashrc() {
 
   rm -f ~/.bashrc.bak
 
-  echo
-  echo "Success"
+  echo "Version: $(grep -E "^# VERSION" ~/.bashrc)"
   echo
 }
 
@@ -257,3 +256,5 @@ fi
 
 # autocd
 shopt -s autocd
+
+# VERSION 1.0.0
