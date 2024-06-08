@@ -178,7 +178,14 @@ upd_go() {
 
       if [ $? -ne 0 ]; then
         echo "Error: Download failed."
-        rm $temp_file
+        if [ -e $temp_file ]; then
+          rm $temp_file
+        fi
+        return 1
+      fi
+
+      if [ ! -e $temp_file ]; then
+        echo "Error: Couldn't find the downloaded file."
         return 1
       fi
 
