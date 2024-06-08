@@ -2,6 +2,8 @@
 ## Alias
 ##
 
+# -A, --almost-all
+#   do not list implied . and ..
 alias l 'ls -l'
 alias la 'ls -lA'
 alias laz 'ls -laZ'
@@ -15,6 +17,9 @@ if command -q batcat
 end
 
 if command -q eza
+  # Filtering options:
+  #   Pass the --all option twice to also show the . and .. directories.
+  #   la -aa
   alias ls 'eza -g --git'
   alias tree 'eza -aT --git-ignore'
 end
