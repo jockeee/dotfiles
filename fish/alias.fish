@@ -521,9 +521,8 @@ end
 function upd_bashrc -d 'update bashrc'
   echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
-  # check if curl is available
-  if not command -q curl
-    echo "Error: 'curl' not found"
+  if not test -e ~/.dotfiles/.bashrc
+    echo "Error: Couldn't find ~/.dotfiles/.bashrc"
     return 1
   end
 
@@ -541,7 +540,7 @@ function upd_bashrc -d 'update bashrc'
   end
 
   # add new additions
-  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  cat ~/.dotfiles/.bashrc >> ~/.bashrc
   if test $status -ne 0
     echo "Error: Couldn't update ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
