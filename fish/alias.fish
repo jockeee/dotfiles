@@ -358,7 +358,14 @@ function upd_go -d 'golang update'
 
       if test $status -ne 0
         echo "Error: Download failed"
-        rm $temp_file
+        if test -e $temp_file
+          rm $temp_file
+        end
+        return 1
+      end
+
+      if not test -e $temp_file
+        echo "Error: Couldn't find the downloaded archive"
         return 1
       end
 
@@ -488,7 +495,14 @@ function install_go -d 'golang install'
 
   if test $status -ne 0
     echo "Error: Download failed"
-    rm $temp_file
+    if test -e $temp_file
+      rm $temp_file
+    end
+    return 1
+  end
+
+  if not test -e $temp_file
+    echo "Error: Couldn't find the downloaded archive"
     return 1
   end
 
