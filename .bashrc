@@ -4,6 +4,8 @@
 ## ALIAS
 ##
 
+# -A, --almost-all
+#   do not list implied . and ..
 alias l='ls -l'
 alias la='ls -lA'
 alias laz='ls -laZ'
@@ -12,16 +14,20 @@ alias c='cat'
 
 if type -P bat &>/dev/null; then
   alias bat='bat -p'
-  alias cat='bat'
+  alias c='bat'
 fi
 
 if type -P batcat &>/dev/null; then
   alias bat='batcat -p'
-  alias cat='bat'
+  alias c='bat'
 fi
 
 if type -P /usr/bin/eza &>/dev/null; then
+  # Filtering options:
+  #   Pass the --all option twice to also show the . and .. directories.
+  #   la -aa
   alias ls='eza -g --git'
+  alias tree='eza -aT --git-ignore'
 fi
 
 if type -P /usr/bin/btop &>/dev/null; then
