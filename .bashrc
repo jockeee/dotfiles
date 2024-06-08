@@ -4,10 +4,11 @@
 ## ALIAS
 ##
 
-# -A, --almost-all
-#   do not list implied . and ..
+# ls options
+#   -A, --almost-all: do not list implied . and ..
 alias l='ls -l'
-alias la='ls -lA'
+alias la='ls -la'
+alias lad='ls -lad'
 alias laz='ls -laZ'
 
 alias c='cat'
@@ -23,10 +24,14 @@ if type -P batcat &>/dev/null; then
 fi
 
 if type -P /usr/bin/eza &>/dev/null; then
-  # Filtering options:
-  #   Pass the --all option twice to also show the . and .. directories.
-  #   la -aa
+  # Filtering options
+  #   Pass the -a, --all option twice to also show the . and .. directories.
+  # Long view options
+  #   -a, --all: show hidden and 'dot' files
+  #   -g, --group: list each file’s group
+  #   --git: list each file’s Git status, if tracked or ignored
   alias ls='eza -g --git'
+  alias la='eza -gaa --git'
   alias tree='eza -aT --git-ignore'
 fi
 
