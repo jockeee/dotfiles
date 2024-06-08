@@ -207,6 +207,11 @@ upd_go() {
 upd_bashrc() {
   echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
 
+  if [ ! -e ~/.dotfiles/.bashrc ]; then
+    echo "Error: Couldn't find ~/.dotfiles/.bashrc"
+    return 1
+  fi
+
   # create backup
   if [ -e ~/.bashrc ]; then
     cp ~/.bashrc ~/.bashrc.bak
@@ -221,7 +226,7 @@ upd_bashrc() {
   fi
 
   # add new additions
-  curl -s https://raw.githubusercontent.com/jockeee/dotfiles/main/.bashrc >>~/.bashrc
+  cat ~/.dotfiles/.bashrc >>~/.bashrc
   if [ $? -ne 0 ]; then
     echo "Error: Couldn't update ~/.bashrc"
     mv ~/.bashrc.bak ~/.bashrc
@@ -268,4 +273,4 @@ fi
 # autocd
 shopt -s autocd
 
-# VERSION 1.0.0
+# VERSION 1.0.1
