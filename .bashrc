@@ -1,5 +1,5 @@
 # default distro ~/.bashrc above
-# VERSION 1.0.3
+# VERSION 1.0.4
 
 ##
 ## ALIAS
@@ -216,7 +216,6 @@ upd_go() {
 
 upd_bashrc() {
   echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
-  echo -e '\e[3mcat ~/.dotfiles/.bashrc >> ~/.bashrc\e[0m\n'
 
   if [ ! -e ~/.dotfiles/.bashrc ]; then
     echo "Error: Couldn't find ~/.dotfiles/.bashrc"
