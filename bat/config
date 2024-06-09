@@ -2,8 +2,10 @@
 # a command-line option that you want to pass to `bat` by default. You can
 # run `bat --help` to get a list of all possible configuration options.
 
-# Specify desired highlighting theme (e.g. "TwoDark"). Run `bat --list-themes`
-# for a list of all available themes
+# Specify desired highlighting theme (e.g. "TwoDark").
+# Run `bat --list-themes` for a list of all available themes.
+# Run `bat cache --build` to build the syntax highlighting database,
+# which is necessary for `bat` to be able to use the themes.
 #--theme="TwoDark"
 --theme="Catppuccin Mocha"
 
@@ -12,7 +14,7 @@
 #--italic-text=always
 
 # Uncomment the following line to disable automatic paging:
---paging=never
+#--paging=never
 
 # Uncomment the following line if you are using less version >= 551 and want to
 # enable mouse scrolling support in `bat` when running inside tmux. This might
