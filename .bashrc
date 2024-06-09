@@ -8,7 +8,8 @@
 # ls options
 #   -A, --almost-all: do not list implied . and ..
 alias l='ls -l'
-alias la='ls -la'
+alias la='ls -lA'
+alias laa='ls -la'
 alias lad='ls -lad'
 alias laz='ls -laZ'
 
@@ -32,7 +33,8 @@ if type -P /usr/bin/eza &>/dev/null; then
   #   -g, --group: list each file’s group
   #   --git: list each file’s Git status, if tracked or ignored
   alias ls='eza -g --git'
-  alias la='eza -gaa --git'
+  alias la='eza -gla --git'
+  alias laa='eza -glaa --git'
   alias tree='eza -aT --git-ignore'
 fi
 
