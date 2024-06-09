@@ -6,8 +6,8 @@
 #   -A, --almost-all: do not list implied . and ..
 alias l 'ls -l'
 alias la 'ls -lA'
+alias ld 'ls -ld'
 alias laa 'ls -la'
-alias lad 'ls -lad'
 alias laz 'ls -laZ'
 
 if command -q bat
@@ -27,6 +27,7 @@ if command -q eza
   #   --git: list each file’s Git status, if tracked or ignored
   alias ls 'eza -g --git'
   alias la 'eza -gla --git'
+  alias ld 'eza -gld --git'
   alias laa 'eza -glaa --git'
   alias tree 'eza -aT --git-ignore'
 end
