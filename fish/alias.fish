@@ -25,7 +25,7 @@ if command -q eza
   #   -g, --group: list each file’s group
   #   --git: list each file’s Git status, if tracked or ignored
   alias ls 'eza -g --git'
-  alias la 'eza -gaa --git'
+  alias la 'eza -glaa --git'
   alias tree 'eza -aT --git-ignore'
 end
 
