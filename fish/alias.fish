@@ -534,6 +534,7 @@ end
 
 function upd_bashrc -d 'update bashrc'
   echo -e '\e[1mUpdating ~/.bashrc\e[0m\n'
+  echo -e '\e[3mcat ~/.dotfiles/.bashrc >> ~/.bashrc\e[0m\n'
 
   if not test -e ~/.dotfiles/.bashrc
     echo "Error: Couldn't find ~/.dotfiles/.bashrc"
