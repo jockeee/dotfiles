@@ -16,7 +16,7 @@ return {
 
   require 'user.plugins.colorscheme', -- colorscheme
 
-  'tpope/vim-sleuth', -- detect tabstop and shiftwidth automatically
+  -- 'tpope/vim-sleuth', -- detect tabstop and shiftwidth automatically
   -- https://github.com/NMAC427/guess-indent.nvim -- lua style
   -- https://github.com/Darazaki/indent-o-matic -- lua style
 
