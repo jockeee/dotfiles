@@ -1,6 +1,5 @@
--- --------------------
--- LSP CONFIG
--- --------------------
+--
+-- lsp config
 
 -- https://github.com/neovim/nvim-lspconfig
 

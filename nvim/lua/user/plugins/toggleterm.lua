@@ -1,6 +1,6 @@
--- --------------------
--- TOGGLETERM
--- --------------------
+--
+-- https://github.com/akinsho/toggleterm.nvim
+-- A neovim lua plugin to help easily manage multiple terminal windows
 
 return {
   'akinsho/toggleterm.nvim',
