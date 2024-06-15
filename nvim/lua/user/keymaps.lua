@@ -1,7 +1,6 @@
--- --------------------
--- KEYMAPS
--- --------------------
-
+--
+-- keymaps.lua
+--
 -- https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 
 -- clear highlights (search) with <esc>
@@ -47,17 +46,16 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
 vim.keymap.set('n', '<leader>m', '<cmd>Mason<cr>', { desc = 'Mason' })
 
--- neotree
-vim.keymap.set('n', '\\', '<cmd>Neotree focus<cr>', { desc = 'Neotree' })
-
 -- --------------------
--- leader-c: code
+-- leader-b: buffer
 -- --------------------
 
--- see lsp-config.lua, nvim-cmp.lua and conform.lua plugins for most of the keymaps related to code
+vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete buffer' })
+vim.keymap.set('n', '<leader>bk', '<cmd>bd!<cr>', { desc = 'Kill buffer (ignore unsaved changes)' })
+vim.keymap.set('n', '<leader>ba', '<cmd>%bdelete<cr>', { desc = 'Close all buffers' })
 
 -- --------------------
--- leader-d: document (everything buffer related as well, you don't want to hit b key for it)
+-- leader-d: document
 -- --------------------
 
 vim.keymap.set('n', '<leader>da', '<cmd>AerialToggle!<CR>')
@@ -69,6 +67,7 @@ vim.keymap.set(
   '<cmd>lua vim.opt.colorcolumn = vim.inspect(vim.opt.colorcolumn:get()) == "{}" and { 79 } or {}<cr>',
   { desc = 'Toggle colorcolumn' }
 )
+
 -- --------------------
 -- leader-f: find
 -- --------------------
@@ -85,5 +84,5 @@ vim.keymap.set('n', '<leader>g', '<cmd>Neogit<cr>', { desc = 'Neogit' })
 -- leader-q: quit
 -- --------------------
 
-vim.keymap.set('n', '<leader>qq', '<cmd>qa!<cr>', { desc = 'qa!' })
+vim.keymap.set('n', '<leader>qa', '<cmd>qa!<cr>', { desc = 'qa!' })
 vim.keymap.set('n', '<leader>qw', '<cmd>qw!<cr>', { desc = 'qw!' })

@@ -1,8 +1,7 @@
--- --------------------
---  NEOGIT
--- --------------------
+--
+--  https://github.com/NeogitOrg/neogit
+--  An interactive and powerful Git interface for Neovim, inspired by Magit
 
--- interactive git interface
 return {
   'NeogitOrg/neogit',
   tag = 'v0.0.1', -- use tag v0.0.1 if neovim version is < 0.10
@@ -12,7 +11,7 @@ return {
 
     -- Only one of these is needed, not both.
     'nvim-telescope/telescope.nvim', -- optional
-    -- "ibhagwan/fzf-lua",            -- optional
+    -- "ibhagwan/fzf-lua",           -- optional
   },
   config = true,
 }

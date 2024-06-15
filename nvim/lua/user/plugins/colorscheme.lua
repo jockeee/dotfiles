@@ -1,7 +1,8 @@
 --
--- colorschemes
--- update global variable `vim.g.colorscheme` in `init.lua` with the colorscheme you want to use
--- use `:Telescope colorscheme` to see what colorschemes are installed
+-- colorschemes.lua
+-- update global variable `vim.g.colorscheme` in `lua/user/globals.lua` with the colorscheme you want to use
+--
+-- :Telescope colorscheme
 
 return {
   -- catppuccin
