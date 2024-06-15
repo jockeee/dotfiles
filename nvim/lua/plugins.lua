@@ -13,6 +13,7 @@ return {
   -- --------------------
 
   require 'user.plugins.colorscheme', -- colorscheme
+  'tpope/vim-sleuth', -- auto set tabstop, shiftwidth, etc for each file based on its contents
 
   require 'user.plugins.todo-comments', -- highlight todo, notes, etc in comments
   require 'user.plugins.which-key', -- show pending keybinds
