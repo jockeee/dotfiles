@@ -21,7 +21,6 @@ return {
   require 'user.plugins.treesitter', -- highlight, edit, and navigate code
   require 'user.plugins.telescope', -- fuzzy finder (files, lsp, etc)
 
-  -- require 'user.plugins.bufferline', -- tabs for open buffers
   require 'user.plugins.lualine', -- statusline
   require 'user.plugins.neo-tree', -- file explorer
 
