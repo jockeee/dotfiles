@@ -1,6 +1,8 @@
--- --------------------
--- TELESCOPE
--- --------------------
+--
+-- telescope.lua
+--
+-- :help telescope
+-- :help telescope.setup()
 
 -- Telescope is a fuzzy finder that comes with a lot of different things that
 -- it can fuzzy find! It's more than just a "file finder", it can search
@@ -20,15 +22,6 @@
 -- This opens a window that shows you all of the keymaps for the current
 -- telescope picker. This is really useful to discover what Telescope can
 -- do as well as how to actually do it!
-
--- TODO: mouse support
--- mouse support is enabled and merged, look into it, LazyVim uses it, it works in his setup.
---
---  feat(scrolling and mouse support): support scrolling and selecting with the mouse
---  https://github.com/nvim-telescope/telescope.nvim/pull/2687
---
---  looks like it will be in next release, current is v0.1.6 from 3 weeks ago.
---  the commits happening now, addressing this, is from 1-2 days ago, just wait for the next release.
 
 -- telescope alaternative?
 -- https://github.com/ibhagwan/fzf-lua
@@ -63,11 +56,9 @@ return {
     -- include/exclude files in telescope live grep
     -- https://www.reddit.com/r/neovim/comments/11ukbgn/how_to_includeexclude_files_in_telescope_live_grep/
     -- telescope-live-grep-args to pass arguments to ripgrep
-    --  https://github.com/nvim-telescope/telescope-live-grep-args.nvim
+    -- https://github.com/nvim-telescope/telescope-live-grep-args.nvim
   },
   config = function()
-    -- [[ Configure Telescope ]]
-    -- See `:help telescope` and `:help telescope.setup()`
     require('telescope').setup {
       -- You can put your default mappings / updates / etc. in here
       --  All the info you're looking for is in `:help telescope.setup()`
@@ -146,7 +137,7 @@ return {
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
 
-    vim.keymap.set('n', '<leader><leader>', builtin.git_files, { desc = 'Find git file' })
+    vim.keymap.set('n', '<leader><leader>', builtin.find_files, { desc = 'Find file' })
 
     -- find in current buffer
     -- Slightly advanced example of overriding default behavior and theme
@@ -175,6 +166,7 @@ return {
     vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Find help' })
     vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = 'Find keymap' })
     vim.keymap.set('n', '<leader>fo', builtin.oldfiles, { desc = 'Find old (recent) file' })
+    vim.keymap.set('n', '<leader>fp', builtin.git_files, { desc = 'Find git file' })
     vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = 'Find resume' })
     vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = 'Find select telescope' })
     vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = 'Find word under cursor' })

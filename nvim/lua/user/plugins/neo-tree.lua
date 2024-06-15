@@ -1,8 +1,9 @@
--- --------------------
--- NEOTREE
--- --------------------
-
+--
+-- https://github.com/nvim-neo-tree/neo-tree.nvim
+-- neovim plugin to manage the file system and other tree like structures
+--
 -- file explorer
+
 return {
   'nvim-neo-tree/neo-tree.nvim',
   branch = 'v3.x',

@@ -1,9 +1,8 @@
--- --------------------
--- OPTIONS
--- --------------------
-
--- See `:help vim.opt`
---  For more options, you can see `:help option-list`
+--
+-- options.lua
+--
+-- :help vim.opt
+-- :help option-list
 --
 -- https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/options.lua
 
