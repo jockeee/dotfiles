@@ -16,6 +16,7 @@ return {
     { '\\', '<cmd>Neotree reveal<cr>', { desc = 'NeoTree reveal' } },
   },
   opts = {
+    close_if_last_window = true,
     filesystem = {
       filtered_items = {
         always_show = { -- remains visible even if other settings would normally hide it

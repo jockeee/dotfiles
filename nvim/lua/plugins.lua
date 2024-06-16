@@ -13,8 +13,8 @@ return {
   -- editing
   'tpope/vim-sleuth', -- auto set tabstop, shiftwidth, etc for each file based on its contents
   'tpope/vim-unimpaired', -- handy bracket mappings
-  { 'numToStr/Comment.nvim', opts = {} }, -- "gc" to comment visual regions/lines
   require 'user.plugins.nvim-surround', -- add/change/delete surrounding delimiter pairs with ease
+  require 'user.plugins.comment',
   require 'user.plugins.mini', -- collection of various small independent plugins/modules
   require 'user.plugins.github-copilot',
 
