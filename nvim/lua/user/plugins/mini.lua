@@ -1,10 +1,12 @@
--- --------------------
--- MINI
--- --------------------
-
+--
+-- https://github.com/echasnovski/mini.nvim
+-- Library of 40+ independent Lua modules improving overall Neovim (version 0.8 and higher) experience with minimal effort
+--
 -- collection of various small independent plugins/modules
+
 return {
   'echasnovski/mini.nvim',
+  lazy = false,
   config = function()
     -- Better Around/Inside textobjects
     --

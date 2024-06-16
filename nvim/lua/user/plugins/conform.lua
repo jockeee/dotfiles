@@ -28,9 +28,7 @@ return {
         lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
       }
     end,
-    formatters_by_ft = {
-      -- Specify formatters by filetype
-      --
+    formatters_by_ft = { -- Specify formatters by filetype
       -- Run multiple formatters sequentially
       -- python = { "isort", "black" }
       --
@@ -42,9 +40,7 @@ return {
       javascript = { { 'prettierd', 'prettier' } },
       go = { 'gofumpt', 'goimports-reviser' },
     },
-    formatters_by_ext = {
-      -- Specify formatters by file extension
-      --
+    formatters_by_ext = { -- Specify formatters by file extension
       -- ["py"] = { "isort", "black" },
       -- ["js"] = { { 'prettierd', 'prettier' } },
       -- ["ts"] = { { 'prettierd', 'prettier' } },

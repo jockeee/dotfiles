@@ -8,7 +8,6 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<cr>')
 
 -- exit terminal mode in the builtin terminal with <esc> (default: <C-\><C-n>).
 vim.keymap.set('t', '<Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-vim.keymap.set('t', '`', '<C-\\><C-n><cmd>ToggleTerm direction=float<cr>', { desc = 'Exit terminal' })
 
 -- save file
 vim.keymap.set({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
@@ -27,12 +26,6 @@ vim.keymap.set('i', '<A-k>', '<esc><cmd>m .-2<cr>==gi', { desc = 'Move Up' })
 vim.keymap.set('v', '<A-j>', ":m '>+1<cr>gv=gv", { desc = 'Move Down' })
 vim.keymap.set('v', '<A-k>', ":m '<-2<cr>gv=gv", { desc = 'Move Up' })
 
--- buffers
-vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-vim.keymap.set('n', '<S-h>', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
-vim.keymap.set('n', '<S-l>', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
-
 -- better indenting (gv re-selects last selection)
 vim.keymap.set('v', '<', '<gv')
 vim.keymap.set('v', '>', '>gv')
@@ -46,43 +39,16 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 vim.keymap.set('n', '<leader>l', '<cmd>Lazy<cr>', { desc = 'Lazy' })
 vim.keymap.set('n', '<leader>m', '<cmd>Mason<cr>', { desc = 'Mason' })
 
--- --------------------
--- leader-b: buffer
--- --------------------
-
-vim.keymap.set('n', '<leader>bd', '<cmd>bd<cr>', { desc = 'Delete buffer' })
-vim.keymap.set('n', '<leader>bk', '<cmd>bd!<cr>', { desc = 'Kill buffer (ignore unsaved changes)' })
-vim.keymap.set('n', '<leader>ba', '<cmd>%bdelete<cr>', { desc = 'Close all buffers' })
-
--- --------------------
--- leader-d: document
--- --------------------
-
-vim.keymap.set('n', '<leader>da', '<cmd>AerialToggle!<CR>')
-vim.keymap.set('n', '<leader>dd', '<cmd>bdelete<cr>', { desc = 'Buffer delete' })
-vim.keymap.set('n', '<leader>dx', '<cmd>bdelete!<cr>', { desc = 'Buffer kill (ignore unsaved changes)' })
+-- buffers
+vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
+vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
+-- leader-d: document (buffer)
+vim.keymap.set('n', '<leader>dd', '<cmd>bd<cr>', { desc = 'Buffer delete' })
+vim.keymap.set('n', '<leader>dda', '<cmd>%bdelete<cr>', { desc = 'Buffer delete all' })
+vim.keymap.set('n', '<leader>dk', '<cmd>bd!<cr>', { desc = 'Buffer kill (ignore unsaved changes)' })
 vim.keymap.set(
   'n',
   '<leader>dc',
   '<cmd>lua vim.opt.colorcolumn = vim.inspect(vim.opt.colorcolumn:get()) == "{}" and { 79 } or {}<cr>',
-  { desc = 'Toggle colorcolumn' }
+  { desc = 'Colorcolumn toggle' }
 )
-
--- --------------------
--- leader-f: find
--- --------------------
-
--- see telescope.lua for most of the keymaps related to finding stuff
-
--- --------------------
--- leader-g: git
--- --------------------
-
-vim.keymap.set('n', '<leader>g', '<cmd>Neogit<cr>', { desc = 'Neogit' })
-
--- --------------------
--- leader-q: quit
--- --------------------
-
-vim.keymap.set('n', '<leader>qa', '<cmd>qa!<cr>', { desc = 'qa!' })
-vim.keymap.set('n', '<leader>qw', '<cmd>qw!<cr>', { desc = 'qw!' })

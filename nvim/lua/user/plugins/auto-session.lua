@@ -4,6 +4,7 @@
 
 return {
   'rmagatti/auto-session',
+  lazy = false,
   opts = {
     log_level = 'error', -- default: 'info'
     auto_save_enabled = true, -- default: nil

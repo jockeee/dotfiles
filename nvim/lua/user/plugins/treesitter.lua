@@ -8,6 +8,8 @@
 
 return {
   'nvim-treesitter/nvim-treesitter',
+  lazy = false,
+  dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
   build = ':TSUpdate',
   opts = {
     ensure_installed = { 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
