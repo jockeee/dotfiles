@@ -25,6 +25,7 @@ return {
   require 'user.plugins.telescope', -- fuzzy finder (files, lsp, etc)
   require 'user.plugins.toggleterm',
   require 'user.plugins.treesitter', -- highlight, edit, and navigate code
+  require 'user.plugins.trouble', -- pretty diagnostics, references, telescope results, quickfix and location list
   require 'user.plugins.vim-tmux-navigator', -- ctrl-hjkl\ keymaps that works with both tmux and nvim panes
 
   -- lsp, linting, formatting, autocompletion
