@@ -12,9 +12,7 @@ return {
     -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
   },
   cmd = 'Neotree',
-  keys = {
-    { '\\', '<cmd>Neotree reveal<cr>', { desc = 'NeoTree reveal' } },
-  },
+  keys = { { '\\', '<cmd>Neotree reveal<cr>' } },
   opts = {
     close_if_last_window = true,
     filesystem = {

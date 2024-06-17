@@ -44,7 +44,7 @@ vim.keymap.set('n', '[b', '<cmd>bprevious<cr>', { desc = 'Prev Buffer' })
 vim.keymap.set('n', ']b', '<cmd>bnext<cr>', { desc = 'Next Buffer' })
 -- leader-d: document (buffer)
 vim.keymap.set('n', '<leader>dd', '<cmd>bd<cr>', { desc = 'Buffer delete' })
-vim.keymap.set('n', '<leader>dda', '<cmd>%bdelete<cr>', { desc = 'Buffer delete all' })
+vim.keymap.set('n', '<leader>dx', '<cmd>%bdelete<cr>', { desc = 'Buffer delete all' })
 vim.keymap.set('n', '<leader>dk', '<cmd>bd!<cr>', { desc = 'Buffer kill (ignore unsaved changes)' })
 vim.keymap.set(
   'n',
